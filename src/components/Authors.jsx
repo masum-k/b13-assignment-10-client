@@ -57,17 +57,10 @@ export default function Authors() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-white">
       {/* Header */}
-      <div className="relative flex items-center justify-between mb-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl text-center sm:text-3xl font-semibold text-gray-900">
           Favorite Authors
         </h2>
-
-        <a
-          href="#view-all"
-          className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 flex items-center gap-1 transition-colors"
-        >
-          View All <ChevronRight className="w-4 h-4" />
-        </a>
       </div>
 
       {/* Slider Controls & Track */}
