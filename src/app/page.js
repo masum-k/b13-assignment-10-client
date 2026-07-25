@@ -1,6 +1,7 @@
 import BestSellingBooks from "@/components/BestSellingBooks";
 import BooksCatalog from "@/components/BooksCatalog";
 import HeroSection from "@/components/HeroSection";
+import NewReleases from "@/components/NewReleases";
 import PromoBanners from "@/components/PromoBanners";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <PromoBanners />
       <BestSellingBooks />
       <BooksCatalog />
+      <NewReleases/>
     </>
   );
 }
