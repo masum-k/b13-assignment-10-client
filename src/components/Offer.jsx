@@ -19,7 +19,8 @@ export default function Offer () {
           {/* Left-to-right subtle white fade gradient to ensure text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#f8f8f8] via-[#f8f8f8]/80 to-transparent w-full md:w-3/4" />
         </div>
-
+ 
+ 
         {/* Text Content */}
         <div className="relative z-10 px-8 sm:px-16 py-8 max-w-xl text-left">
           {/* Main Title */}
