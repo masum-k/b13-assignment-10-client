@@ -77,6 +77,7 @@ export default function Navbar() {
         <div className="flex-1 max-w-lg hidden md:flex items-center">
           <div className="flex w-full border border-gray-300 rounded-sm overflow-hidden focus-within:ring-1 focus-within:ring-red-600 focus-within:border-red-600">
             {/* Category Dropdown */}
+            
             <Dropdown>
               <Dropdown.Trigger>
                 <div className="flex items-center justify-between gap-2 px-3 py-2 bg-white text-xs text-gray-700 border-r border-gray-300 min-w-32.5 hover:bg-gray-50 cursor-pointer select-none">
