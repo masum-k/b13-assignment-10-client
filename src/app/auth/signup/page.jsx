@@ -21,7 +21,6 @@ export default function SignupPage() {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-
         setError("");
         setSuccess("");
         setIsLoading(true);

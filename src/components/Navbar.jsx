@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Dropdown, Label } from "@heroui/react";
+import { Button, Dropdown, Label } from "@heroui/react";
 import {
   Search,
   User,
@@ -13,11 +13,18 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { signOut, useSession } from "@/lib/auth-client";
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState("Pages");
   const [category, setCategory] = useState("All categories");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: session, isPending } = useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    await signOut();
+  }
 
   const navLinks = [
     { title: "Pages", items: ["Home", "About Us", "Contact", "FAQ"] },
@@ -29,7 +36,7 @@ export default function Navbar() {
   return (
     <nav className="w-full bg-white border-b border-gray-100 font-sans sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
-        
+
         <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0">
           <div className="bg-red-600 text-white p-2 sm:p-2.5 rounded-md shadow-sm">
             <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
@@ -51,11 +58,10 @@ export default function Navbar() {
                 <Dropdown.Trigger>
                   <div
                     onClick={() => setActiveTab(nav.title)}
-                    className={`flex items-center gap-1 transition-colors hover:text-black py-1 cursor-pointer select-none ${
-                      activeTab === nav.title
-                        ? "text-black font-semibold border-b-2 border-black -mb-2.25"
-                        : "text-gray-600"
-                    }`}
+                    className={`flex items-center gap-1 transition-colors hover:text-black py-1 cursor-pointer select-none ${activeTab === nav.title
+                      ? "text-black font-semibold border-b-2 border-black -mb-2.25"
+                      : "text-gray-600"
+                      }`}
                   >
                     <span>{nav.title}</span>
                     <Plus className="w-3.5 h-3.5 text-gray-400" />
@@ -124,46 +130,55 @@ export default function Navbar() {
 
         {/* --- 4. USER ACCOUNT & CART PANEL --- */}
         <div className="flex items-center gap-2 sm:gap-4">
-          <div className="flex items-center bg-gray-100 rounded-sm px-2.5 sm:px-4 py-1.5 sm:py-2 space-x-2 sm:space-x-4 text-xs font-medium text-gray-800">
-            {/* Account Dropdown */}
-            <Dropdown>
-              <Dropdown.Trigger>
-                <div className="flex items-center gap-1 sm:gap-1.5 hover:text-black transition-colors cursor-pointer select-none">
-                  <User className="w-4 h-4 text-gray-700" />
-                  <span className="hidden sm:inline">My Account</span>
-                  <Plus className="w-3 h-3 text-gray-400 hidden sm:inline" />
-                </div>
-              </Dropdown.Trigger>
+          {user
+            ?
+            <div className="flex items-center bg-gray-100 rounded-sm px-2.5 sm:px-4 py-1.5 sm:py-2 space-x-2 sm:space-x-4 text-xs font-medium text-gray-800">
+              {/* Account Dropdown */}
+              <Dropdown>
+                <Dropdown.Trigger>
+                  <div className="flex items-center gap-1 sm:gap-1.5 hover:text-black transition-colors cursor-pointer select-none">
+                    <User className="w-4 h-4 text-gray-700" />
+                    <span className="hidden sm:inline">{user.name}</span>
+                    <Plus className="w-3 h-3 text-gray-400 hidden sm:inline" />
+                  </div>
+                </Dropdown.Trigger>
 
-              <Dropdown.Popover>
-                <Dropdown.Menu aria-label="Account Options">
-                  <Dropdown.Item id="profile">
-                    <Label>Profile</Label>
-                  </Dropdown.Item>
-                  <Dropdown.Item id="orders">
-                    <Label>My Orders</Label>
-                  </Dropdown.Item>
-                  <Dropdown.Item id="wishlist">
-                    <Label>Wishlist</Label>
-                  </Dropdown.Item>
-                  <Dropdown.Item id="logout" variant="danger">
-                    <Label>Log Out</Label>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown.Popover>
-            </Dropdown>
+                <Dropdown.Popover>
+                  <Dropdown.Menu aria-label="Account Options">
+                    <Dropdown.Item id="profile">
+                      <Label>Profile</Label>
+                    </Dropdown.Item>
+                    <Dropdown.Item id="orders">
+                      <Label>My Orders</Label>
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleSignOut} id="wishlist">
+                      <Label>Wishlist</Label>
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleSignOut} id="logout" variant="danger">
+                      <Label>Log Out</Label>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown.Popover>
+              </Dropdown>
 
-            <span className="text-gray-300">|</span>
+              <span className="text-gray-300">|</span>
 
-            {/* Cart Section */}
-            <Link
-              href="/cart"
-              className="flex items-center gap-1 sm:gap-1.5 hover:text-black transition-colors"
+              {/* Cart Section */}
+              <Link
+                href="/cart"
+                className="flex items-center gap-1 sm:gap-1.5 hover:text-black transition-colors"
+              >
+                <ShoppingBag className="w-4 h-4 text-gray-700" />
+                <span>€0.00</span>
+              </Link>
+            </div>
+            : <Link
+              href="/auth/signin"
+              className="text-red-600 font-semibold"
             >
-              <ShoppingBag className="w-4 h-4 text-gray-700" />
-              <span>€0.00</span>
+              Login
             </Link>
-          </div>
+          }
 
           {/* Mobile Menu Toggle Button */}
           <button
