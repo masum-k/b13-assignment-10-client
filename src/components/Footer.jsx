@@ -1,51 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import Image from "next/image";
+import React from "react";
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    alert(`Subscribed with: ${email}`);
-    setEmail("");
-  };
-
   return (
-    <footer className="w-full bg-white text-gray-700 font-sans">
-      {/* Newsletter Section */}
-      <div className="max-w-4xl mx-auto px-4 pt-16 pb-20 text-center">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-2">
-          Join Our Newsletter
-        </h2>
-        <p className="text-sm text-gray-500 mb-8">
-          Signup to be the first to hear about exclusive deals, special offers and upcoming collections
-        </p>
-
-        <form
-          onSubmit={handleSubscribe}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto"
-        >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email for weekly newsletter."
-            required
-            className="w-full sm:flex-1 px-4 py-3 border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-900 transition-colors"
-          />
-          <button
-            type="submit"
-            className="w-full sm:w-auto px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-medium text-sm transition-colors cursor-pointer"
-          >
-            Subscribe
-          </button>
-        </form>
-      </div>
-
-      {/* Main Footer Links Section */}
-      <div className="max-w-7xl mx-auto px-4 pb-16 border-t border-gray-100 pt-12">
+    <footer className="w-full bg-white text-gray-700 font-sans border-t border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand Info */}
           <div className="md:col-span-1 space-y-4">
@@ -66,41 +27,46 @@ export default function Footer() {
               <p>+1 246-345-0695</p>
             </div>
 
-            {/* Social Icons - Simple Images */}
+            {/* Social Icons */}
             <div className="flex items-center gap-4 pt-2">
               <a href="#instagram" aria-label="Instagram" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"
                   alt="Instagram"
-                  className="w-4 h-4"
+                  width={4}
+                  height={4}
                 />
               </a>
               <a href="#facebook" aria-label="Facebook" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"
                   alt="Facebook"
-                  className="w-4 h-4"
+                  width={4}
+                  height={4}
                 />
               </a>
               <a href="#youtube" aria-label="YouTube" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
                   alt="YouTube"
-                  className="w-4 h-4"
+                  width={4}
+                  height={4}
                 />
               </a>
               <a href="#twitter" aria-label="Twitter" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/733/733579.png"
                   alt="Twitter"
-                  className="w-4 h-4"
+                  width={4}
+                  height={4}
                 />
               </a>
               <a href="#pinterest" aria-label="Pinterest" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/145/145808.png"
                   alt="Pinterest"
-                  className="w-4 h-4"
+                  width={4}
+                  height={4}
                 />
               </a>
             </div>
