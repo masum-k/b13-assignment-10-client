@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ShoppingBag, Heart } from "lucide-react";
 
 const BOOKS_DATA = {
@@ -122,12 +123,14 @@ export default function BooksCatalog() {
 
   const handleAddToCart = (book, e) => {
     e.stopPropagation();
+    e.preventDefault();
     setCart((prev) => [...prev, book]);
     alert(`Added "${book.title}" to cart!`);
   };
 
   const handleToggleWishlist = (book, e) => {
     e.stopPropagation();
+    e.preventDefault();
     setWishlist((prev) =>
       prev.includes(book.id)
         ? prev.filter((id) => id !== book.id)
@@ -172,70 +175,72 @@ export default function BooksCatalog() {
               key={book.id}
               className="group relative bg-white p-4 border-r border-b border-gray-200 flex flex-col justify-between transition-all duration-150 hover:shadow-xl hover:border-gray-900 hover:z-20 cursor-pointer"
             >
-              {/* Top Image Box */}
-              <div className="relative w-full aspect-[2/3] mb-4 flex items-center justify-center overflow-hidden">
-                <Image
-                  src={book.image}
-                  alt={book.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 16vw"
-                />
-              </div>
+              <Link href={`/books/${book.id}`} className="block flex-1 flex flex-col justify-between">
+                {/* Top Image Box */}
+                <div className="relative w-full aspect-[2/3] mb-4 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src={book.image}
+                    alt={book.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 16vw"
+                  />
+                </div>
 
-              {/* Bottom Information */}
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-red-400 font-medium tracking-wide uppercase mb-1">
-                  {book.format}
-                </span>
-
-                <h3 className="text-xs font-semibold text-gray-900 leading-snug line-clamp-2 h-8 mb-2">
-                  {book.title}
-                </h3>
-
-                <p className="text-[11px] text-gray-400 truncate mb-2">
-                  {book.author}
-                </p>
-
-                <div className="flex items-center gap-1.5 mb-3">
-                  <span className="text-sm font-bold text-gray-900">
-                    {book.price}
+                {/* Bottom Information */}
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] text-red-400 font-medium tracking-wide uppercase mb-1">
+                    {book.format}
                   </span>
-                  {book.originalPrice && (
-                    <span className="text-xs text-gray-300 line-through">
-                      {book.originalPrice}
+
+                  <h3 className="text-xs font-semibold text-gray-900 leading-snug line-clamp-2 h-8 mb-2 group-hover:text-red-500 transition-colors">
+                    {book.title}
+                  </h3>
+
+                  <p className="text-[11px] text-gray-400 truncate mb-2">
+                    {book.author}
+                  </p>
+
+                  <div className="flex items-center gap-1.5 mb-3">
+                    <span className="text-sm font-bold text-gray-900">
+                      {book.price}
                     </span>
-                  )}
+                    {book.originalPrice && (
+                      <span className="text-xs text-gray-300 line-through">
+                        {book.originalPrice}
+                      </span>
+                    )}
+                  </div>
                 </div>
+              </Link>
 
-                {/* Footer Action Icons */}
-                <div className="flex items-center justify-between pt-1">
-                  <button
-                    type="button"
-                    onClick={(e) => handleAddToCart(book, e)}
-                    aria-label="Add to cart"
-                    className="text-gray-600 hover:text-gray-900 transition-colors p-1 cursor-pointer"
-                  >
-                    <ShoppingBag className="w-4 h-4 stroke-[1.5]" />
-                  </button>
+              {/* Footer Action Icons */}
+              <div className="flex items-center justify-between pt-1 border-t border-gray-50 mt-auto">
+                <button
+                  type="button"
+                  onClick={(e) => handleAddToCart(book, e)}
+                  aria-label="Add to cart"
+                  className="text-gray-600 hover:text-gray-900 transition-colors p-1 cursor-pointer z-10"
+                >
+                  <ShoppingBag className="w-4 h-4 stroke-[1.5]" />
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={(e) => handleToggleWishlist(book, e)}
-                    aria-label="Add to wishlist"
-                    className={`transition-colors p-1 cursor-pointer ${
-                      isWishlisted
-                        ? "text-red-500 fill-red-500"
-                        : "text-gray-600 hover:text-red-500"
+                <button
+                  type="button"
+                  onClick={(e) => handleToggleWishlist(book, e)}
+                  aria-label="Add to wishlist"
+                  className={`transition-colors p-1 cursor-pointer z-10 ${
+                    isWishlisted
+                      ? "text-red-500 fill-red-500"
+                      : "text-gray-600 hover:text-red-500"
+                  }`}
+                >
+                  <Heart
+                    className={`w-4 h-4 stroke-[1.5] ${
+                      isWishlisted ? "fill-current text-red-500" : ""
                     }`}
-                  >
-                    <Heart
-                      className={`w-4 h-4 stroke-[1.5] ${
-                        isWishlisted ? "fill-current text-red-500" : ""
-                      }`}
-                    />
-                  </button>
-                </div>
+                  />
+                </button>
               </div>
             </div>
           );

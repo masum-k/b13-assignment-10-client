@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Card } from "@heroui/react";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 
@@ -79,12 +80,12 @@ export default function BestSellingBooks() {
           Bestselling Books
         </h2>
 
-        <a
-          href="#view-all"
+        <Link
+          href="/shop"
           className="absolute right-0 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 flex items-center gap-1 transition-colors"
         >
           View All <ChevronRight className="w-4 h-4" />
-        </a>
+        </Link>
       </div>
 
       {/* Slider Container */}
@@ -138,58 +139,37 @@ function BookCard({ item }) {
   return (
     <Card className="group relative bg-white p-4 rounded-none border-b border-r border-gray-200 shadow-none transition-all duration-200 hover:border-gray-900 hover:shadow-lg hover:z-10 flex flex-col justify-between h-full">
       <Card.Content className="p-0 flex flex-col justify-between h-full">
-        {/* Book Cover Image */}
-        <div className="relative w-full aspect-[3/4] mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
-          <Image
-            src={item.coverImage}
-            alt={item.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-          />
-        </div>
-
-        {/* Content Container */}
-        <div className="flex flex-col items-start w-full mt-auto text-left">
-          {/* Format Badge */}
-          <span className="text-[10px] text-red-500 font-medium tracking-wider uppercase mb-1">
-            {item.format}
-          </span>
-
-          {/* Book Title */}
-          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 h-8 sm:h-9 mb-1 leading-snug">
-            {item.title}
-          </h3>
-
-          {/* Author */}
-          <p className="text-xs text-gray-400 truncate w-full mb-3">
-            {item.author}
-          </p>
-
-          {/* Price */}
-          <span className="text-gray-900 font-bold text-sm mb-3">
-            {item.price}
-          </span>
-
-          {/* Action Row on Hover */}
-          <div className="w-full pt-1">
-            <div className="hidden group-hover:flex items-center justify-between w-full pt-1 border-t border-gray-100">
-              <button
-                type="button"
-                className="text-[11px] font-bold tracking-wider text-gray-900 hover:text-red-600 transition-colors uppercase"
-              >
-                Add to Cart
-              </button>
-              <button
-                type="button"
-                aria-label="Add to wishlist"
-                className="text-gray-600 hover:text-red-600 transition-colors p-0.5"
-              >
-                <Heart className="w-4 h-4" />
-              </button>
-            </div>
+        <Link href={`/books/${item.id}`} className="block flex-1 flex flex-col justify-between">
+          {/* Book Cover Image */}
+          <div className="relative w-full aspect-[3/4] mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
+            <Image
+              src={item.coverImage}
+              alt={item.title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+            />
           </div>
-        </div>
+
+          {/* Book Details */}
+          <div className="flex flex-col items-start w-full text-left">
+            <span className="text-[10px] text-red-500 font-medium tracking-wider uppercase mb-1">
+              {item.format}
+            </span>
+
+            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 h-8 sm:h-9 mb-1 leading-snug group-hover:text-red-500 transition-colors">
+              {item.title}
+            </h3>
+
+            <p className="text-xs text-gray-400 truncate w-full mb-3">
+              {item.author}
+            </p>
+
+            <span className="text-gray-900 font-bold text-sm mb-2">
+              {item.price}
+            </span>
+          </div>
+        </Link>
       </Card.Content>
     </Card>
   );

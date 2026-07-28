@@ -2,7 +2,7 @@
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export const addBook = async (bookData) => {
-    const res = await fetch(`${baseUrl}/api/librarians`, {
+    const res = await fetch(`${baseUrl}/api/books`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

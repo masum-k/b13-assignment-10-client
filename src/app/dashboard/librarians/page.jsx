@@ -51,10 +51,13 @@ export default function LibrarianDashboardPage() {
             requestCount: editingBook ? editingBook.requestCount : 0,
         };
 
-        const res = await addBook(payload);
-        if (res.insertedId) {
-            toast.success("Book added successfully!");
-            e.target.reset();
+        try {
+            const res = await addBook(payload);
+            if (res?.insertedId) {
+                toast.success("Book added successfully!");
+            }
+        } catch (err) {
+            console.error("Action error:", err);
         }
 
         try {
@@ -66,6 +69,7 @@ export default function LibrarianDashboardPage() {
                 const newBook = { id: `BK-${Date.now().toString().slice(-3)}`, ...payload };
                 setInventory(prev => [newBook, ...prev]);
             }
+            setFormData(emptyForm);
             setIsModalOpen(false);
         } catch (err) {
             alert("Failed to save book to backend api.");
@@ -110,8 +114,7 @@ export default function LibrarianDashboardPage() {
             const body = new FormData();
             body.append("image", file);
 
-            const IMGBB_API_KEY= process.env.NEXT_PUBLIC_IMAGE_UPLOAD_API;
-            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body });
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_API}`, { method: "POST", body });
             
             const result = await res.json();
             if (result.success) setFormData(p => ({ ...p, coverUrl: result.data.url }));
@@ -189,10 +192,21 @@ export default function LibrarianDashboardPage() {
                     </div>
                 </div>
 
-                {/* Inventory Table */}
-                <TableContainer title="Manage Inventory" headers={["Book Title", "Author", "Category", "Delivery Fee", "Current Status", "Toggle", "Actions"]}>
+                {/* Inventory Table with Image Column */}
+                <TableContainer title="Manage Inventory" headers={["Cover", "Book Title", "Author", "Category", "Delivery Fee", "Current Status", "Toggle", "Actions"]}>
                     {inventory.map((book) => (
                         <tr key={book.id} className="hover:bg-gray-50/50">
+                            <td className="py-2 px-4">
+                                <div className="relative w-9 h-12 bg-gray-100 rounded overflow-hidden border border-gray-200">
+                                    <Image 
+                                        src={book.cover} 
+                                        alt={book.title} 
+                                        fill 
+                                        className="object-cover" 
+                                        sizes="36px" 
+                                    />
+                                </div>
+                            </td>
                             <td className="py-3 px-4 font-bold">{book.title}</td>
                             <td className="py-3 px-4 text-gray-600">{book.author}</td>
                             <td className="py-3 px-4">{book.category}</td>
@@ -300,7 +314,14 @@ export default function LibrarianDashboardPage() {
                                     className="w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-gray-100"
                                 />
                                 {uploadState.loading && <p className="text-[10px] text-blue-600 mt-1">Uploading...</p>}
-                                {formData.coverUrl && !uploadState.loading && <p className="text-[10px] text-emerald-600 mt-1">✓ Uploaded successfully</p>}
+                                {formData.coverUrl && !uploadState.loading && (
+                                    <div className="mt-2 flex items-center gap-2">
+                                        <div className="relative w-8 h-10 border rounded overflow-hidden">
+                                            <Image src={formData.coverUrl} alt="Preview" fill className="object-cover" sizes="32px" />
+                                        </div>
+                                        <span className="text-[10px] text-emerald-600 font-medium">✓ Uploaded successfully</span>
+                                    </div>
+                                )}
                                 {uploadState.error && <p className="text-[10px] text-red-500 mt-1">{uploadState.error}</p>}
                             </div>
 

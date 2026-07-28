@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Card } from "@heroui/react";
 import { Heart } from "lucide-react";
 
@@ -182,13 +183,12 @@ export default function NewReleases() {
             ON ORDER OVER $100
           </p>
 
-          <button
-            type="button"
-            onClick={() => alert("Promo offer clicked!")}
-            className="w-full max-w-[160px] bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-medium text-xs sm:text-sm py-2.5 px-4 transition-colors duration-200 rounded-none shadow-sm cursor-pointer"
+          <Link
+            href="/shop"
+            className="w-full max-w-[160px] bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-medium text-xs sm:text-sm py-2.5 px-4 transition-colors duration-200 rounded-none shadow-sm text-center block"
           >
             View More
-          </button>
+          </Link>
         </div>
 
         {/* Right 4x2 Grid */}
@@ -207,61 +207,69 @@ function BookCard({ item }) {
   return (
     <Card className="group relative bg-white p-4 sm:p-5 rounded-none border-b border-r border-gray-200 shadow-none transition-all duration-200 hover:border-gray-900 hover:shadow-lg hover:z-10 flex flex-col justify-between h-full">
       <Card.Content className="p-0 flex flex-col justify-between h-full">
-        {/* Cover Image */}
-        <div className="relative w-full aspect-[3/4] mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
-          <Image
-            src={item.coverImage}
-            alt={item.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-          />
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-col items-start w-full mt-auto text-left">
-          <span className="text-[10px] text-red-500 font-medium tracking-wider uppercase mb-1">
-            {item.format}
-          </span>
-
-          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 h-8 sm:h-9 mb-1 leading-snug">
-            {item.title}
-          </h3>
-
-          <p className="text-xs text-gray-400 truncate w-full mb-3">
-            {item.author}
-          </p>
-
-          <div className="flex items-center gap-1.5 w-full mb-2">
-            <span className="text-gray-900 font-bold text-sm">
-              {item.price}
-            </span>
-            {item.originalPrice && (
-              <span className="text-gray-400 line-through text-xs">
-                {item.originalPrice}
-              </span>
-            )}
+        <Link href={`/books/${item.id}`} className="block flex-1 flex flex-col justify-between">
+          {/* Cover Image */}
+          <div className="relative w-full aspect-[3/4] mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
+            <Image
+              src={item.coverImage}
+              alt={item.title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+            />
           </div>
 
-          {/* Action Hover Row */}
-          <div className="w-full pt-1">
-            <div className="hidden group-hover:flex items-center justify-between w-full pt-1 border-t border-gray-100">
-              <button
-                type="button"
-                onClick={() => alert(`Added ${item.title} to cart`)}
-                className="text-[11px] font-bold tracking-wider text-gray-900 hover:text-red-600 transition-colors uppercase cursor-pointer"
-              >
-                Add to Cart
-              </button>
-              <button
-                type="button"
-                onClick={() => alert(`Added ${item.title} to wishlist`)}
-                aria-label="Add to wishlist"
-                className="text-gray-600 hover:text-red-600 transition-colors p-0.5 cursor-pointer"
-              >
-                <Heart className="w-4 h-4" />
-              </button>
+          {/* Content */}
+          <div className="flex flex-col items-start w-full mt-auto text-left">
+            <span className="text-[10px] text-red-500 font-medium tracking-wider uppercase mb-1">
+              {item.format}
+            </span>
+
+            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 h-8 sm:h-9 mb-1 leading-snug group-hover:text-red-500 transition-colors">
+              {item.title}
+            </h3>
+
+            <p className="text-xs text-gray-400 truncate w-full mb-3">
+              {item.author}
+            </p>
+
+            <div className="flex items-center gap-1.5 w-full mb-2">
+              <span className="text-gray-900 font-bold text-sm">
+                {item.price}
+              </span>
+              {item.originalPrice && (
+                <span className="text-gray-400 line-through text-xs">
+                  {item.originalPrice}
+                </span>
+              )}
             </div>
+          </div>
+        </Link>
+
+        {/* Action Hover Row */}
+        <div className="w-full pt-1">
+          <div className="hidden group-hover:flex items-center justify-between w-full pt-1 border-t border-gray-100">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Added ${item.title} to cart`);
+              }}
+              className="text-[11px] font-bold tracking-wider text-gray-900 hover:text-red-600 transition-colors uppercase cursor-pointer"
+            >
+              Add to Cart
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Added ${item.title} to wishlist`);
+              }}
+              aria-label="Add to wishlist"
+              className="text-gray-600 hover:text-red-600 transition-colors p-0.5 cursor-pointer"
+            >
+              <Heart className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </Card.Content>

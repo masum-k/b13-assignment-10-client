@@ -19,7 +19,7 @@ const sliderData = [
     buttonText: "Shopping Now",
     buttonLink: "/shop",
     coverImage:
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=600",
   },
   {
     id: 2,
@@ -115,7 +115,7 @@ export default function HeroSection() {
             modules={[Pagination, Autoplay]}
             pagination={{
               clickable: true,
-              dynamicBullets: true, // Enabled dynamic pagination bullets
+              dynamicBullets: true,
               el: ".custom-swiper-pagination",
             }}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
@@ -169,9 +169,10 @@ export default function HeroSection() {
         {/* RIGHT: FEATURED LIST */}
         <div className="lg:col-span-4 flex flex-col justify-between gap-3">
           {rightFeaturedBooks.map((book) => (
-            <div
+            <Link
               key={book.id}
-              className="bg-white border border-gray-100 rounded-sm p-3 sm:p-3.5 flex items-center gap-3 sm:gap-4 hover:shadow-sm transition-shadow duration-200"
+              href={`/books/${book.id}`}
+              className="bg-white border border-gray-100 rounded-sm p-3 sm:p-3.5 flex items-center gap-3 sm:gap-4 hover:shadow-sm transition-shadow duration-200 group"
             >
               <div className="relative w-14 h-18 sm:w-16 sm:h-20 shrink-0 bg-gray-50 border border-gray-200 rounded-sm overflow-hidden">
                 <Image
@@ -179,7 +180,7 @@ export default function HeroSection() {
                   alt={book.title}
                   fill
                   sizes="100px"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-200 group-hover:scale-105"
                 />
               </div>
 
@@ -187,7 +188,7 @@ export default function HeroSection() {
                 <span className="text-[11px] sm:text-xs text-gray-400 block font-normal">
                   {book.publisher}
                 </span>
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-800 truncate mt-0.5">
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-800 group-hover:text-rose-600 transition-colors truncate mt-0.5">
                   {book.title}
                 </h3>
 
@@ -203,7 +204,7 @@ export default function HeroSection() {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
