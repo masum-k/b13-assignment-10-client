@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function Footer() {
@@ -10,11 +11,23 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand Info */}
           <div className="md:col-span-1 space-y-4">
-            <div className="flex items-center gap-1.5 text-xl font-bold tracking-tight text-gray-900">
-              BOOK
-              <span className="text-red-500 text-2xl font-black">W</span>
-              ORM
-            </div>
+
+            <Link href="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+              <svg viewBox="0 0 24 28" className="w-6 h-7 sm:w-7 sm:h-8 shrink-0">
+                <path d="M12 1.5C6.5 1.5 3 6 3 11.5 3 18.8 12 25 12 25s9-6.2 9-13.5C21 6 17.5 1.5 12 1.5z" fill="#DC2626" />
+                <path d="M7.8 9.8c1.5-.6 3.3-.6 4.2.3.9-.9 2.7-.9 4.2-.3v6c-1.5-.6-3.3-.6-4.2.3-.9-.9-2.7-.9-4.2-.3v-6z" fill="#FFF" />
+                <path d="M12 10.1v6" stroke="#DC2626" strokeWidth="0.8" strokeLinecap="round" />
+                <circle cx="12" cy="6.6" r="1.1" fill="#2563EB" />
+              </svg>
+              <div className="flex flex-col">
+                <span className="text-lg sm:text-xl font-black tracking-wider text-black leading-none">
+                  BIBLIO<span className="text-red-600">DROP</span>
+                </span>
+                <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-gray-500 uppercase mt-0.5">
+                  Library Delivery Network
+                </span>
+              </div>
+            </Link>
 
             <address className="not-italic text-xs text-gray-500 leading-relaxed">
               1418 River Drive, Suite 35 Cottonhall, CA 9622

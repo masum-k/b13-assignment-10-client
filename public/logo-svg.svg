@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 90" width="420" height="90" fill="none">
+  <!-- Icon Mark -->
+  <g transform="translate(10, 5)">
+    <!-- Shield / Outer Drop Base -->
+    <path d="M40 5 C22 5 10 20 10 38 C10 62 40 82 40 82 C40 82 70 62 70 38 C70 20 58 5 40 5Z" fill="#DC2626" />
+    <!-- Open Book Cutout inside Drop -->
+    <path d="M26 32 C31 30 37 30 40 33 C43 30 49 30 54 32 V52 C49 50 43 50 40 53 C37 50 31 50 26 52 Z" fill="#FFFFFF" />
+    <path d="M40 33 V53" stroke="#DC2626" stroke-width="2" stroke-linecap="round" />
+    <!-- Accent Drop Dot -->
+    <circle cx="40" cy="22" r="3.5" fill="#2563EB" />
+  </g>
+
+  <!-- Typography -->
+  <text x="95" y="48" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="30" fill="#0F172A" letter-spacing="-0.5">
+    BIBLIO<tspan fill="#DC2626">DROP</tspan>
+  </text>
+  <text x="96" y="66" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="11" fill="#64748B" letter-spacing="2">
+    LIBRARY DELIVERY NETWORK
+  </text>
+</svg>

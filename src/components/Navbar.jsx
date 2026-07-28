@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth-client";
+import Image from "next/image";
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState("Pages");
@@ -37,20 +38,23 @@ export default function Navbar() {
     <nav className="w-full bg-white border-b border-gray-100 font-sans sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
 
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <div className="bg-red-600 text-white p-2 sm:p-2.5 rounded-md shadow-sm">
-            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
-          </div>
+        <Link href="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <svg viewBox="0 0 24 28" className="w-6 h-7 sm:w-7 sm:h-8 shrink-0">
+            <path d="M12 1.5C6.5 1.5 3 6 3 11.5 3 18.8 12 25 12 25s9-6.2 9-13.5C21 6 17.5 1.5 12 1.5z" fill="#DC2626" />
+            <path d="M7.8 9.8c1.5-.6 3.3-.6 4.2.3.9-.9 2.7-.9 4.2-.3v6c-1.5-.6-3.3-.6-4.2.3-.9-.9-2.7-.9-4.2-.3v-6z" fill="#FFF" />
+            <path d="M12 10.1v6" stroke="#DC2626" strokeWidth="0.8" strokeLinecap="round" />
+            <circle cx="12" cy="6.6" r="1.1" fill="#2563EB" />
+          </svg>
           <div className="flex flex-col">
             <span className="text-lg sm:text-xl font-black tracking-wider text-black leading-none">
-              ANGELICA
+              BIBLIO<span className="text-red-600">DROP</span>
             </span>
-            <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-gray-500 uppercase mt-0.5 sm:mt-1">
-              Inclusive Bookstore
+            <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-gray-500 uppercase mt-0.5">
+              Library Delivery Network
             </span>
           </div>
         </Link>
-
+        
         <ul className="hidden lg:flex items-center space-x-6 text-sm font-medium text-gray-700">
           {navLinks.map((nav) => (
             <li key={nav.title} className="relative py-2">
