@@ -109,7 +109,10 @@ export default function LibrarianDashboardPage() {
         try {
             const body = new FormData();
             body.append("image", file);
-            const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY || "YOUR_IMGBB_API_KEY"}`, { method: "POST", body });
+
+            const IMGBB_API_KEY= process.env.NEXT_PUBLIC_IMAGE_UPLOAD_API;
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body });
+            
             const result = await res.json();
             if (result.success) setFormData(p => ({ ...p, coverUrl: result.data.url }));
             else setUploadState({ loading: false, error: "Upload failed." });
