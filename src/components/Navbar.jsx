@@ -14,7 +14,6 @@ import {
   X,
 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth-client";
-import Image from "next/image";
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState("Pages");
@@ -54,7 +53,7 @@ export default function Navbar() {
             </span>
           </div>
         </Link>
-        
+
         <ul className="hidden lg:flex items-center space-x-6 text-sm font-medium text-gray-700">
           {navLinks.map((nav) => (
             <li key={nav.title} className="relative py-2">
@@ -176,12 +175,21 @@ export default function Navbar() {
                 <span>€0.00</span>
               </Link>
             </div>
-            : <Link
-              href="/auth/signin"
-              className="text-red-600 font-semibold"
-            >
-              Login
-            </Link>
+            : <>
+              <Link
+                href="/auth/signin"
+                className="text-red-600 font-semibold"
+              >
+                Login
+              </Link>
+              <span className="h-4 w-[1px] bg-gray-300" aria-hidden="true" />
+              <Link
+                href="/auth/signup"
+                className="text-red-600 font-semibold"
+              >
+                Sign Up
+              </Link>
+            </>
           }
 
           {/* Mobile Menu Toggle Button */}

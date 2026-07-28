@@ -50,14 +50,13 @@ export default function SigninPage() {
             <Card className="w-full max-w-md p-8 shadow-sm border border-gray-200 bg-white rounded-xl">
 
                 {/* Header Container */}
-                <div className="flex flex-col items-center justify-center gap-1 pb-6 border-b border-gray-100 mb-6 text-center">
-                    <Link href="/" className="inline-flex items-center gap-1 text-2xl font-bold tracking-tight text-gray-900 mb-1">
-                        BOOK
-                        <span className="text-red-600 text-3xl font-black">W</span>
-                        ORM
-                    </Link>
-                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Welcome back</h1>
-                    <p className="text-xs text-gray-500">Sign in to your account to continue</p>
+                <div className="flex flex-col">
+                    <span className="text-lg sm:text-xl font-black tracking-wider text-black leading-none">
+                        BIBLIO<span className="text-red-600">DROP</span>
+                    </span>
+                    <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-gray-500 uppercase mt-0.5">
+                        Library Delivery Network
+                    </span>
                 </div>
 
                 {/* Form Body */}
