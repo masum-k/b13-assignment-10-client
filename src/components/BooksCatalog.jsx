@@ -141,7 +141,7 @@ export default function BooksCatalog() {
   const currentBooks = BOOKS_DATA[activeTab] || BOOKS_DATA.Featured;
 
   return (
-    <section className="w-full max-w-[1280px] mx-auto px-4 py-12 bg-white">
+    <section className="w-full max-w-7xl mx-auto px-4 py-12 bg-white">
       {/* Centered Heading */}
       <h2 className="text-2xl sm:text-3xl font-normal text-center text-gray-900 mb-6">
         Featured Books
@@ -175,9 +175,9 @@ export default function BooksCatalog() {
               key={book.id}
               className="group relative bg-white p-4 border-r border-b border-gray-200 flex flex-col justify-between transition-all duration-150 hover:shadow-xl hover:border-gray-900 hover:z-20 cursor-pointer"
             >
-              <Link href={`/books/${book.id}`} className="block flex-1 flex flex-col justify-between">
+              <Link href={`/books/${book.id}`} className=" flex-1 flex flex-col justify-between">
                 {/* Top Image Box */}
-                <div className="relative w-full aspect-[2/3] mb-4 flex items-center justify-center overflow-hidden">
+                <div className="relative w-full aspect-2/3 mb-4 flex items-center justify-center overflow-hidden">
                   <Image
                     src={book.image}
                     alt={book.title}

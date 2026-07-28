@@ -150,7 +150,7 @@ export default function NewReleases() {
               >
                 {cat.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-900 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-900 rounded-full" />
                 )}
               </button>
             );
@@ -185,14 +185,14 @@ export default function NewReleases() {
 
           <Link
             href="/shop"
-            className="w-full max-w-[160px] bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-medium text-xs sm:text-sm py-2.5 px-4 transition-colors duration-200 rounded-none shadow-sm text-center block"
+            className="w-full max-w-40 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white font-medium text-xs sm:text-sm py-2.5 px-4 transition-colors duration-200 rounded-none shadow-sm text-center block"
           >
             View More
           </Link>
         </div>
 
         {/* Right 4x2 Grid */}
-        <div className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 min-h-[400px]">
+        <div className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 min-h-100">
           {activeBooks.map((item) => (
             <BookCard key={item.id} item={item} />
           ))}
@@ -207,9 +207,9 @@ function BookCard({ item }) {
   return (
     <Card className="group relative bg-white p-4 sm:p-5 rounded-none border-b border-r border-gray-200 shadow-none transition-all duration-200 hover:border-gray-900 hover:shadow-lg hover:z-10 flex flex-col justify-between h-full">
       <Card.Content className="p-0 flex flex-col justify-between h-full">
-        <Link href={`/books/${item.id}`} className="block flex-1 flex flex-col justify-between">
+        <Link href={`/books/${item.id}`} className="flex-1 flex flex-col justify-between">
           {/* Cover Image */}
-          <div className="relative w-full aspect-[3/4] mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
+          <div className="relative w-full aspect-3/4 mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
             <Image
               src={item.coverImage}
               alt={item.title}

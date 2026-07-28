@@ -78,7 +78,7 @@ export default function BookDetailsPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-16">
           {/* Left: Product Gallery */}
           <div className="md:col-span-5 flex flex-col items-center">
-            <div className="relative w-full aspect-[3/4] max-w-[340px] border border-gray-200 shadow-sm mb-4 bg-gray-50">
+            <div className="relative w-full aspect-3/4 max-w-85 border border-gray-200 shadow-sm mb-4 bg-gray-50">
               <Image
                 src={selectedImage || book.coverImage}
                 alt={book.title}
@@ -159,7 +159,7 @@ export default function BookDetailsPage() {
               <button
                 type="button"
                 onClick={() => alert(`Added ${quantity} of ${book.title} to cart!`)}
-                className="flex-1 max-w-[220px] h-9 border-2 border-red-600 text-red-600 text-xs font-bold uppercase tracking-wider hover:bg-red-600 hover:text-white transition-colors"
+                className="flex-1 max-w-55 h-9 border-2 border-red-600 text-red-600 text-xs font-bold uppercase tracking-wider hover:bg-red-600 hover:text-white transition-colors"
               >
                 + Add To Cart
               </button>
@@ -168,7 +168,7 @@ export default function BookDetailsPage() {
             {/* Buy Now Button */}
             <button
               type="button"
-              className="w-full max-w-[310px] h-9 bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-colors mb-4"
+              className="w-full max-w-77.5 h-9 bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-colors mb-4"
             >
               Buy Now
             </button>
@@ -227,7 +227,7 @@ export default function BookDetailsPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {ALL_BOOKS.map((item) => (
               <Link key={item.id} href={`/books/${item.id}`} className="group block text-center border border-gray-100 p-3 hover:shadow-md transition-shadow">
-                <div className="relative w-full aspect-[3/4] mb-3 bg-gray-50">
+                <div className="relative w-full aspect-3/4 mb-3 bg-gray-50">
                   <Image src={item.coverImage} alt={item.title} fill className="object-cover" />
                 </div>
                 <h3 className="text-xs font-semibold text-gray-800 truncate group-hover:text-red-600 transition-colors">
@@ -254,7 +254,7 @@ export default function BookDetailsPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {ALL_BOOKS.slice(0, 2).map((item) => (
               <Link key={item.id} href={`/books/${item.id}`} className="group block text-center border border-gray-100 p-3 hover:shadow-md transition-shadow">
-                <div className="relative w-full aspect-[3/4] mb-3 bg-gray-50">
+                <div className="relative w-full aspect-3/4 mb-3 bg-gray-50">
                   <Image src={item.coverImage} alt={item.title} fill className="object-cover" />
                 </div>
                 <h3 className="text-xs font-semibold text-gray-800 truncate group-hover:text-red-600 transition-colors">
@@ -273,7 +273,7 @@ export default function BookDetailsPage() {
           <div className="relative w-8 h-10 bg-gray-100">
             <Image src={book.coverImage} alt="mini" fill className="object-cover" />
           </div>
-          <span className="font-semibold text-gray-800 truncate max-w-[150px] sm:max-w-xs">{book.title}</span>
+          <span className="font-semibold text-gray-800 truncate max-w-37.5 sm:max-w-xs">{book.title}</span>
         </div>
 
         <div className="flex items-center gap-3">

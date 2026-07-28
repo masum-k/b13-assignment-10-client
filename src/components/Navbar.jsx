@@ -182,7 +182,7 @@ export default function Navbar() {
               >
                 Login
               </Link>
-              <span className="h-4 w-[1px] bg-gray-300" aria-hidden="true" />
+              <span className="h-4 w-px bg-gray-300" aria-hidden="true" />
               <Link
                 href="/auth/signup"
                 className="text-red-600 font-semibold"

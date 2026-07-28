@@ -95,7 +95,7 @@ export default function BestSellingBooks() {
           type="button"
           onClick={() => swiperInstance?.slidePrev()}
           aria-label="Previous books"
-          className="flex-shrink-0 w-8 h-10 border border-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-500 transition-colors bg-white z-10 cursor-pointer"
+          className="shrink-0 w-8 h-10 border border-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-500 transition-colors bg-white z-10 cursor-pointer"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -126,7 +126,7 @@ export default function BestSellingBooks() {
           type="button"
           onClick={() => swiperInstance?.slideNext()}
           aria-label="Next books"
-          className="flex-shrink-0 w-8 h-10 border border-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-500 transition-colors bg-white z-10 cursor-pointer"
+          className="shrink-0 w-8 h-10 border border-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-500 transition-colors bg-white z-10 cursor-pointer"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -139,9 +139,9 @@ function BookCard({ item }) {
   return (
     <Card className="group relative bg-white p-4 rounded-none border-b border-r border-gray-200 shadow-none transition-all duration-200 hover:border-gray-900 hover:shadow-lg hover:z-10 flex flex-col justify-between h-full">
       <Card.Content className="p-0 flex flex-col justify-between h-full">
-        <Link href={`/books/${item.id}`} className="block flex-1 flex flex-col justify-between">
+        <Link href={`/books/${item.id}`} className="flex-1 flex flex-col justify-between">
           {/* Book Cover Image */}
-          <div className="relative w-full aspect-[3/4] mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
+          <div className="relative w-full aspect-3/4 mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
             <Image
               src={item.coverImage}
               alt={item.title}
