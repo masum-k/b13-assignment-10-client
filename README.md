@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📚 Next.js E-Commerce Bookstore Front-End
 
-## Getting Started
+A modern, responsive, and high-performance e-commerce bookstore web application built with **Next.js**, **React**, **Tailwind CSS**, and **HeroUI**. 
 
-First, run the development server:
+This project features dynamic book showcases, multi-category tabs, featured hero carousels, responsive catalog grids, and full navigation integration to individual product detail pages (`/books/[id]`).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- 🚀 **Hero Section Carousel**: Highlighting top promotions, category banners, and quick-feature callouts using Swiper.
+- 🆕 **New Releases & Featured Sections**: Dynamic tab-filtered catalog layouts showcasing history, science, romance, travel, and more.
+- 📦 **Responsive Book Catalog**: Multi-column responsive grid layout optimized for desktop, tablet, and mobile displays.
+- 🔥 **Bestsellers Slider**: Interactive multi-item carousel for featured books with quick navigation controls.
+- 🔗 **Integrated Navigation**: Seamless Next.js `<Link>` components wrapping book covers, titles, and cards directing to dynamic route pages (`/books/[id]`).
+- 🛒 **Interactive UI Controls**: Action buttons for *Add to Cart* and *Wishlist* with event propagation management to prevent unintended navigation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Next.js](https://nextjs.org/) (App Router / Pages Router compatible)
+- **UI & Styling**: [Tailwind CSS](https://tailwindcss.com/), [HeroUI](https://www.heroui.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Carousels/Sliders**: [Swiper.js](https://swiperjs.com/)
+- **Image Optimization**: `next/image`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📂 Project Structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+├── components/
+│   ├── HeroSection.jsx        # Main banner slider & key features bar
+│   ├── NewReleases.jsx        # Category tabs & promo banner grid
+│   ├── BooksCatalog.jsx       # Tabbed catalog grid with quick action icons
+│   └── BestSellingBooks.jsx   # Multi-card slider for top sellers
+├── app/ or pages/
+│   └── books/
+│       └── [id]/              # Individual book details dynamic page
+└── README.md
