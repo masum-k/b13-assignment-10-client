@@ -26,13 +26,13 @@ export default function LibrarianUnauthCard() {
       {/* Primary Action Button */}
       <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
         <Link
-          href="/login"
+          href="/auth/signin"
           className="w-full sm:w-auto border-2 border-rose-600 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-sm transition-colors text-center"
         >
           Log In
         </Link>
         <Link
-          href="/signup"
+          href="/auth/signup"
           className="w-full sm:w-auto border-2 border-rose-600 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-sm transition-colors text-center"
         >
           Sign Up

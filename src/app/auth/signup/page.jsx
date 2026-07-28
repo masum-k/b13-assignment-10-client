@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Button, Link, TextField, Label, InputGroup, Input, Description, Radio, RadioGroup } from "@heroui/react";
+import { Card, Button, Link, TextField, Label, InputGroup, Input, Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeSlash, Person, At, ShieldKeyhole } from "@gravity-ui/icons";
+import { useRouter } from 'next/navigation';
 import { signUp } from "@/lib/auth-client";
 
 export default function SignupPage() {
-    // Form fields
+    const router = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("reader")
 
-    // UI States
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -32,9 +32,8 @@ export default function SignupPage() {
                 password,
                 name,
                 role,
-                callbackURL: "/",
             });
-
+            
             if (authError) {
                 setError(authError.message || "Something went wrong during signup.");
             } else {
@@ -42,6 +41,7 @@ export default function SignupPage() {
                 setName("");
                 setEmail("");
                 setPassword("");
+                router.push("/");
             }
         } catch (err) {
             setError("An unexpected network error occurred.");

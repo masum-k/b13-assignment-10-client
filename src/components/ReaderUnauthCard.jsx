@@ -20,19 +20,19 @@ export default function LibrarianUnauthCard() {
       </h2>
 
       <p className="text-xs sm:text-sm text-gray-500 mb-6 leading-relaxed">
-        {session?.user?.role === "librarian" ?"You are unauthorized": "You need an active account to view this page. Please log in or sign up to continue."}
+        {session?.user?.role === "librarians" ?"You are unauthorized": "You need an active account to view this page. Please log in or sign up to continue."}
       </p>
 
       {/* Primary Action Button */}
       <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
         <Link
-          href="/login"
+          href="/auth/signin"
           className="w-full sm:w-auto border-2 border-rose-600 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-sm transition-colors text-center"
         >
           Log In
         </Link>
         <Link
-          href="/signup"
+          href="/auth/signup"
           className="w-full sm:w-auto border-2 border-rose-600 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-sm transition-colors text-center"
         >
           Sign Up
