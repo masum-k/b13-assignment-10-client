@@ -9,21 +9,30 @@ import {
   ShoppingBag,
   Plus,
   ChevronDown,
-  BookOpen,
   Menu,
   X,
 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState("Pages");
   const [category, setCategory] = useState("All categories");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
   const { data: session, isPending } = useSession();
   const user = session?.user;
 
   const handleSignOut = async () => {
     await signOut();
+  }
+
+  const dashboard = () => {
+    if (!session?.user?.role === "reader") {
+      router.push("/dashboaard/librarians");
+    } else {
+      router.push("/dashboard/reader")
+    }
   }
 
   const navLinks = [
@@ -148,13 +157,13 @@ export default function Navbar() {
 
                 <Dropdown.Popover>
                   <Dropdown.Menu aria-label="Account Options">
-                    <Dropdown.Item id="profile">
-                      <Label>Profile</Label>
+                    <Dropdown.Item onClick={dashboard} id="profile">
+                      <Label>Dashboard</Label>
                     </Dropdown.Item>
                     <Dropdown.Item id="orders">
                       <Label>My Orders</Label>
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={handleSignOut} id="wishlist">
+                    <Dropdown.Item id="wishlist">
                       <Label>Wishlist</Label>
                     </Dropdown.Item>
                     <Dropdown.Item onClick={handleSignOut} id="logout" variant="danger">

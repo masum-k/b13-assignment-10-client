@@ -10,7 +10,7 @@ import { Truck, RotateCcw, CreditCard, LifeBuoy } from "lucide-react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const sliderData = [
+const SLIDER_DATA = [
   {
     id: 1,
     subTitle: "Book Mockup",
@@ -43,7 +43,7 @@ const sliderData = [
   },
 ];
 
-const rightFeaturedBooks = [
+const RIGHT_FEATURED_BOOKS = [
   {
     id: 1,
     publisher: "Amazona",
@@ -76,7 +76,7 @@ const rightFeaturedBooks = [
   },
 ];
 
-const features = [
+const FEATURES = [
   {
     id: 1,
     title: "Free Shipping Item",
@@ -119,7 +119,7 @@ export default function HeroSection() {
             loop={true}
             className="w-full h-full custom-swiper"
           >
-            {sliderData.map((slide) => (
+            {SLIDER_DATA.map((slide) => (
               <SwiperSlide key={slide.id}>
                 <div className="p-6 sm:p-10 md:p-12 flex flex-col-reverse sm:flex-row items-center justify-between gap-6 h-full">
                   <div className="flex-1 space-y-2 sm:space-y-3 z-10 text-center sm:text-left">
@@ -161,7 +161,7 @@ export default function HeroSection() {
         </div>
 
         <div className="lg:col-span-4 flex flex-col justify-between gap-3">
-          {rightFeaturedBooks.map((book) => (
+          {RIGHT_FEATURED_BOOKS.map((book) => (
             <Link
               key={book.id}
               href={`/books/${book.id}`}
@@ -203,7 +203,7 @@ export default function HeroSection() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6">
-        {features.map((item) => {
+        {FEATURES.map((item) => {
           const IconComponent = item.icon;
           return (
             <div
@@ -211,26 +211,20 @@ export default function HeroSection() {
               className="bg-white border border-gray-100 rounded-sm p-3.5 sm:p-4 flex items-center gap-3.5"
             >
               <div className="bg-rose-600 text-white p-2.5 rounded-sm shrink-0">
-                <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 stroke-2" />
+                <IconComponent className="w-5 h-5 stroke-[1.75]" />
               </div>
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-gray-900">
+              <div className="min-w-0">
+                <h4 className="text-xs sm:text-sm font-bold text-gray-800 truncate">
                   {item.title}
-                </span>
-                <span className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">
+                </h4>
+                <p className="text-[11px] sm:text-xs text-gray-400 truncate">
                   {item.subTitle}
-                </span>
+                </p>
               </div>
             </div>
           );
         })}
       </div>
-
-      <style jsx global>{`
-        .custom-swiper-pagination .swiper-pagination-bullet-active {
-          background-color: #e11d48 !important;
-        }
-      `}</style>
     </section>
   );
 }

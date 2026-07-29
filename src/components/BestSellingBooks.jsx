@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card } from "@heroui/react";
+import { Card, CardBody } from "@heroui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/css";
 
 const BESTSELLING_BOOKS = [
@@ -15,7 +15,8 @@ const BESTSELLING_BOOKS = [
     format: "HARDCOVER, KINDLE, PAPERBACK",
     title: "The Last Sister (Columbia River Book 1)",
     author: "Conn Iggulden",
-    coverImage: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop",
     price: "$29.59 – $59.95",
   },
   {
@@ -23,7 +24,8 @@ const BESTSELLING_BOOKS = [
     format: "HARDCOVER",
     title: "The Last Sister (Columbia River Book 1)",
     author: "Jessica Simpson, Max Lucado",
-    coverImage: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop",
     price: "$16.59",
   },
   {
@@ -31,7 +33,8 @@ const BESTSELLING_BOOKS = [
     format: "KINDLE",
     title: "Think Like a Monk: Train Your Mind for Peace and...",
     author: "Luanne Rice",
-    coverImage: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
     price: "$1.75",
   },
   {
@@ -39,7 +42,8 @@ const BESTSELLING_BOOKS = [
     format: "KINDLE",
     title: "Under a Firefly Moon (Firefly Lake Book 1)",
     author: "Donna Kauffman",
-    coverImage: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop",
     price: "$7.67",
   },
   {
@@ -47,7 +51,8 @@ const BESTSELLING_BOOKS = [
     format: "KINDLE",
     title: "Zombie Theorem: Dark Times Book Five",
     author: "James Wallace",
-    coverImage: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
     price: "$2.68",
   },
   {
@@ -55,7 +60,8 @@ const BESTSELLING_BOOKS = [
     format: "PAPERBACK",
     title: "A Million Little Pieces",
     author: "James Frey",
-    coverImage: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=600&auto=format&fit=crop",
     price: "$12.99",
   },
   {
@@ -63,7 +69,8 @@ const BESTSELLING_BOOKS = [
     format: "HARDCOVER",
     title: "The Rural Diaries",
     author: "Hilarie Burton",
-    coverImage: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop",
+    coverImage:
+      "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop",
     price: "$14.82",
   },
 ];
@@ -132,7 +139,7 @@ export default function BestSellingBooks() {
 function BookCard({ item }) {
   return (
     <Card className="group relative bg-white p-4 rounded-none border-b border-r border-gray-200 shadow-none transition-all duration-200 hover:border-gray-900 hover:shadow-lg hover:z-10 flex flex-col justify-between h-full">
-      <Card.Content className="p-0 flex flex-col justify-between h-full">
+      <CardBody className="p-0 flex flex-col justify-between h-full">
         <Link href={`/books/${item.id}`} className="flex-1 flex flex-col justify-between">
           <div className="relative w-full aspect-3/4 mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
             <Image
@@ -162,7 +169,7 @@ function BookCard({ item }) {
             </span>
           </div>
         </Link>
-      </Card.Content>
+      </CardBody>
     </Card>
   );
 }

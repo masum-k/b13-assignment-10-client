@@ -5,120 +5,131 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag, Heart } from "lucide-react";
 
-const BOOKS_DATA = {
-  Featured: [
-    {
-      id: 1,
-      format: "KINDLE EDITION",
-      title: "Think Like a Monk: Train Your Mind for...",
-      author: "Jay Shetty",
-      price: "$15.99",
-      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 2,
-      format: "KINDLE",
-      title: "Fever: A Novel",
-      author: "Mary Beth Keane",
-      price: "$5.31",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 3,
-      format: "KINDLE",
-      title: "Open Book: A Memoir",
-      author: "Jessica Simpson",
-      price: "$10.35",
-      image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 4,
-      format: "HARDCOVER",
-      title: "The Last Sister (Columbia River Book 1)",
-      author: "Jessica Simpson, Max Lu...",
-      price: "$16.59",
-      image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 5,
-      format: "KINDLE EDITION",
-      title: "Where the Crawdads Sing",
-      author: "Kelly Harms",
-      price: "$37.00",
-      originalPrice: "$78.00",
-      image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 6,
-      format: "KINDLE EDITION",
-      title: "Think Like a Monk: Train Your Mind for...",
-      author: "Anna Burns",
-      price: "$56.00",
-      image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 7,
-      format: "HARDCOVER",
-      title: "The Rural Diaries: Love, Livestock, and Big Lif...",
-      author: "Hilarie Burton",
-      price: "$14.82",
-      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 8,
-      format: "PAPERBACK",
-      title: "The Warhol Incident",
-      author: "G.K. Parks",
-      price: "$14.99",
-      image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 9,
-      format: "HARDCOVER, KINDLE, PAPER...",
-      title: "The Overdue Life of Amy Byler",
-      author: "Douglas Kennedy, Jessic...",
-      price: "$29.95 – $59.95",
-      image: "https://images.unsplash.com/photo-1510172951991-856a654063f9?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 10,
-      format: "HARDCOVER",
-      title: "Dark in Death: An Eve Dallas Novel (In Death...",
-      author: "J. D. Robb",
-      price: "$14.20",
-      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 11,
-      format: "HARDCOVER",
-      title: "The Rural Diaries: Love, Livestock, and Big Lif...",
-      author: "Hilarie Burton",
-      price: "$14.82",
-      image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-      id: 12,
-      format: "HARDCOVER, KINDLE, PAPER...",
-      title: "Isabelle in the Afternoon",
-      author: "Douglas Kennedy",
-      price: "$29.95 – $59.95",
-      image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=600&auto=format&fit=crop",
-    },
-  ],
-  "On Sale": [],
-  "Most Viewed": [],
-};
-
-BOOKS_DATA["On Sale"] = [...BOOKS_DATA.Featured].reverse();
-BOOKS_DATA["Most Viewed"] = [
-  ...BOOKS_DATA.Featured.slice(2),
-  ...BOOKS_DATA.Featured.slice(0, 2),
+const FEATURED_BOOKS = [
+  {
+    id: 1,
+    format: "KINDLE EDITION",
+    title: "Think Like a Monk: Train Your Mind for...",
+    author: "Jay Shetty",
+    price: "$15.99",
+    image:
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    format: "KINDLE",
+    title: "Fever: A Novel",
+    author: "Mary Beth Keane",
+    price: "$5.31",
+    image:
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    format: "KINDLE",
+    title: "Open Book: A Memoir",
+    author: "Jessica Simpson",
+    price: "$10.35",
+    image:
+      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    format: "HARDCOVER",
+    title: "The Last Sister (Columbia River Book 1)",
+    author: "Jessica Simpson, Max Lu...",
+    price: "$16.59",
+    image:
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    format: "KINDLE EDITION",
+    title: "Where the Crawdads Sing",
+    author: "Kelly Harms",
+    price: "$37.00",
+    originalPrice: "$78.00",
+    image:
+      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 6,
+    format: "KINDLE EDITION",
+    title: "Think Like a Monk: Train Your Mind for...",
+    author: "Anna Burns",
+    price: "$56.00",
+    image:
+      "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 7,
+    format: "HARDCOVER",
+    title: "The Rural Diaries: Love, Livestock, and Big Lif...",
+    author: "Hilarie Burton",
+    price: "$14.82",
+    image:
+      "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 8,
+    format: "PAPERBACK",
+    title: "The Warhol Incident",
+    author: "G.K. Parks",
+    price: "$14.99",
+    image:
+      "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 9,
+    format: "HARDCOVER, KINDLE, PAPER...",
+    title: "The Overdue Life of Amy Byler",
+    author: "Douglas Kennedy, Jessic...",
+    price: "$29.95 – $59.95",
+    image:
+      "https://images.unsplash.com/photo-1510172951991-856a654063f9?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 10,
+    format: "HARDCOVER",
+    title: "Dark in Death: An Eve Dallas Novel (In Death...",
+    author: "J. D. Robb",
+    price: "$14.20",
+    image:
+      "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 11,
+    format: "HARDCOVER",
+    title: "The Rural Diaries: Love, Livestock, and Big Lif...",
+    author: "Hilarie Burton",
+    price: "$14.82",
+    image:
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 12,
+    format: "HARDCOVER, KINDLE, PAPER...",
+    title: "Isabelle in the Afternoon",
+    author: "Douglas Kennedy",
+    price: "$29.95 – $59.95",
+    image:
+      "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=600&auto=format&fit=crop",
+  },
 ];
+
+const BOOKS_DATA = {
+  Featured: FEATURED_BOOKS,
+  "On Sale": [...FEATURED_BOOKS].reverse(),
+  "Most Viewed": [
+    ...FEATURED_BOOKS.slice(2),
+    ...FEATURED_BOOKS.slice(0, 2),
+  ],
+};
 
 export default function BooksCatalog() {
   const [activeTab, setActiveTab] = useState("Most Viewed");
   const [wishlist, setWishlist] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [, setCart] = useState([]);
 
   const handleAddToCart = (book, e) => {
     e.stopPropagation();
@@ -171,8 +182,8 @@ export default function BooksCatalog() {
               key={book.id}
               className="group relative bg-white p-4 border-r border-b border-gray-200 flex flex-col justify-between transition-all duration-150 hover:shadow-xl hover:border-gray-900 hover:z-20 cursor-pointer"
             >
-              <Link href={`/books/${book.id}`} className="flex-1 flex flex-col justify-between">
-                <div className="relative w-full aspect-2/3 mb-4 flex items-center justify-center overflow-hidden">
+              <Link href={`/books/${book.id}`} className=" flex-1 flex flex-col justify-between">
+                <div className="relative w-full aspect-2/3mb-4 flex items-center justify-center overflow-hidden">
                   <Image
                     src={book.image}
                     alt={book.title}
