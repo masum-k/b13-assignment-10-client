@@ -1,4 +1,4 @@
-import Authors from "@/components/Authors";
+import Librarians from "@/components/Librarians";
 import BestSellingBooks from "@/components/BestSellingBooks";
 import BooksCatalog from "@/components/BooksCatalog";
 import HeroSection from "@/components/HeroSection";
@@ -16,7 +16,7 @@ export default function Home() {
       <BooksCatalog />
       <NewReleases />
       <Offer />
-      <Authors />
+      <Librarians />
       <Newsletter />
     </>
   );
