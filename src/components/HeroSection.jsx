@@ -18,8 +18,7 @@ const SLIDER_DATA = [
     description: "Cover up front of book and leave summary",
     buttonText: "Shopping Now",
     buttonLink: "/shop",
-    coverImage:
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=600",
+    coverImage: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",
   },
   {
     id: 2,
@@ -28,8 +27,7 @@ const SLIDER_DATA = [
     description: "Discover curated stories delivered to your doorstep",
     buttonText: "Browse Books",
     buttonLink: "/shop",
-    coverImage:
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=600",
+    coverImage: "https://covers.openlibrary.org/b/isbn/9780525559474-L.jpg",
   },
   {
     id: 3,
@@ -38,8 +36,7 @@ const SLIDER_DATA = [
     description: "Listen to your favorite authors anywhere, anytime",
     buttonText: "Listen Now",
     buttonLink: "/shop",
-    coverImage:
-      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=600",
+    coverImage: "https://covers.openlibrary.org/b/isbn/9780593135204-L.jpg",
   },
 ];
 
@@ -47,32 +44,29 @@ const RIGHT_FEATURED_BOOKS = [
   {
     id: 1,
     publisher: "Amazona",
-    title: "De Vengeance - J.D Kurtness",
+    title: "Think Like a Monk",
     price: "$18.99",
     originalPrice: "$19.99",
     discount: "-50%",
-    coverImage:
-      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=200",
+    coverImage: "https://covers.openlibrary.org/b/isbn/9781982134488-L.jpg",
   },
   {
-    id: 2,
-    publisher: "Amazona",
-    title: "Coyote Tales - Thomas King",
-    price: "$13.99",
-    originalPrice: "$19.99",
-    discount: "-50%",
-    coverImage:
-      "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=200",
-  },
+      id: 2,
+      format: "KINDLE EDITION",
+      title: "Where the Crawdads Sing",
+      author: "Delia Owens",
+      coverImage: "https://covers.openlibrary.org/b/isbn/9780735219090-L.jpg",
+      price: "$37.00",
+      originalPrice: "$78.00",
+    },
   {
     id: 3,
     publisher: "Amazona",
-    title: "Fred The Lonely Monster - Anne",
+    title: "Lessons in Chemistry",
     price: "$15.99",
     originalPrice: "$19.99",
     discount: "-50%",
-    coverImage:
-      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=200",
+    coverImage: "https://covers.openlibrary.org/b/isbn/9780385547345-L.jpg",
   },
 ];
 
