@@ -78,7 +78,7 @@ const BOOKS_DATA = {
       title: "The Overdue Life of Amy Byler",
       author: "Douglas Kennedy, Jessic...",
       price: "$29.95 – $59.95",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1510172951991-856a654063f9?q=80&w=600&auto=format&fit=crop",
     },
     {
       id: 10,
@@ -86,7 +86,7 @@ const BOOKS_DATA = {
       title: "Dark in Death: An Eve Dallas Novel (In Death...",
       author: "J. D. Robb",
       price: "$14.20",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=600&auto=format&fit=crop",
     },
     {
       id: 11,
@@ -94,7 +94,7 @@ const BOOKS_DATA = {
       title: "The Rural Diaries: Love, Livestock, and Big Lif...",
       author: "Hilarie Burton",
       price: "$14.82",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=600&auto=format&fit=crop",
     },
     {
       id: 12,
@@ -102,14 +102,13 @@ const BOOKS_DATA = {
       title: "Isabelle in the Afternoon",
       author: "Douglas Kennedy",
       price: "$29.95 – $59.95",
-      image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=600&auto=format&fit=crop",
     },
   ],
   "On Sale": [],
   "Most Viewed": [],
 };
 
-// Populate On Sale and Most Viewed tabs with fallback items so tabs work properly
 BOOKS_DATA["On Sale"] = [...BOOKS_DATA.Featured].reverse();
 BOOKS_DATA["Most Viewed"] = [
   ...BOOKS_DATA.Featured.slice(2),
@@ -142,12 +141,10 @@ export default function BooksCatalog() {
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 py-12 bg-white">
-      {/* Centered Heading */}
       <h2 className="text-2xl sm:text-3xl font-normal text-center text-gray-900 mb-6">
         Featured Books
       </h2>
 
-      {/* Tabs Row */}
       <div className="flex justify-center items-center gap-8 mb-8">
         {["Featured", "On Sale", "Most Viewed"].map((tab) => (
           <button
@@ -165,7 +162,6 @@ export default function BooksCatalog() {
         ))}
       </div>
 
-      {/* 6-Column Grid x 2 Rows Layout */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 border-t border-l border-gray-200">
         {currentBooks.map((book) => {
           const isWishlisted = wishlist.includes(book.id);
@@ -175,8 +171,7 @@ export default function BooksCatalog() {
               key={book.id}
               className="group relative bg-white p-4 border-r border-b border-gray-200 flex flex-col justify-between transition-all duration-150 hover:shadow-xl hover:border-gray-900 hover:z-20 cursor-pointer"
             >
-              <Link href={`/books/${book.id}`} className=" flex-1 flex flex-col justify-between">
-                {/* Top Image Box */}
+              <Link href={`/books/${book.id}`} className="flex-1 flex flex-col justify-between">
                 <div className="relative w-full aspect-2/3 mb-4 flex items-center justify-center overflow-hidden">
                   <Image
                     src={book.image}
@@ -187,13 +182,12 @@ export default function BooksCatalog() {
                   />
                 </div>
 
-                {/* Bottom Information */}
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] text-red-400 font-medium tracking-wide uppercase mb-1">
+                  <span className="text-[10px] text-rose-500 font-medium tracking-wide uppercase mb-1">
                     {book.format}
                   </span>
 
-                  <h3 className="text-xs font-semibold text-gray-900 leading-snug line-clamp-2 h-8 mb-2 group-hover:text-red-500 transition-colors">
+                  <h3 className="text-xs font-semibold text-gray-900 leading-snug line-clamp-2 h-8 mb-2 group-hover:text-rose-600 transition-colors">
                     {book.title}
                   </h3>
 
@@ -214,7 +208,6 @@ export default function BooksCatalog() {
                 </div>
               </Link>
 
-              {/* Footer Action Icons */}
               <div className="flex items-center justify-between pt-1 border-t border-gray-50 mt-auto">
                 <button
                   type="button"
@@ -231,13 +224,13 @@ export default function BooksCatalog() {
                   aria-label="Add to wishlist"
                   className={`transition-colors p-1 cursor-pointer z-10 ${
                     isWishlisted
-                      ? "text-red-500 fill-red-500"
-                      : "text-gray-600 hover:text-red-500"
+                      ? "text-rose-600 fill-rose-600"
+                      : "text-gray-600 hover:text-rose-600"
                   }`}
                 >
                   <Heart
                     className={`w-4 h-4 stroke-[1.5] ${
-                      isWishlisted ? "fill-current text-red-500" : ""
+                      isWishlisted ? "fill-current text-rose-600" : ""
                     }`}
                   />
                 </button>

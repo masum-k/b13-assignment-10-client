@@ -106,10 +106,7 @@ const features = [
 export default function HeroSection() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 font-sans">
-      {/* --- TOP GRID SECTION --- */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
-        
-        {/* LEFT: SWIPER SLIDER WITH DYNAMIC PAGINATION */}
         <div className="lg:col-span-8 bg-[#f5f5f5] rounded-sm relative overflow-hidden flex items-center min-h-80 sm:min-h-95">
           <Swiper
             modules={[Pagination, Autoplay]}
@@ -125,7 +122,6 @@ export default function HeroSection() {
             {sliderData.map((slide) => (
               <SwiperSlide key={slide.id}>
                 <div className="p-6 sm:p-10 md:p-12 flex flex-col-reverse sm:flex-row items-center justify-between gap-6 h-full">
-                  {/* Text Content */}
                   <div className="flex-1 space-y-2 sm:space-y-3 z-10 text-center sm:text-left">
                     <span className="text-rose-600 font-medium text-base sm:text-lg block">
                       {slide.subTitle}
@@ -146,7 +142,6 @@ export default function HeroSection() {
                     </div>
                   </div>
 
-                  {/* Book Image Cover */}
                   <div className="relative w-36 h-48 sm:w-48 sm:h-64 md:w-56 md:h-72 shrink-0 drop-shadow-2xl">
                     <Image
                       src={slide.coverImage}
@@ -162,11 +157,9 @@ export default function HeroSection() {
             ))}
           </Swiper>
 
-          {/* Dynamic Pagination Container */}
           <div className="custom-swiper-pagination absolute bottom-3 sm:bottom-4 left-1/2 sm:left-2/3 -translate-x-1/2 z-20 flex items-center justify-center w-auto!" />
         </div>
 
-        {/* RIGHT: FEATURED LIST */}
         <div className="lg:col-span-4 flex flex-col justify-between gap-3">
           {rightFeaturedBooks.map((book) => (
             <Link
@@ -207,10 +200,8 @@ export default function HeroSection() {
             </Link>
           ))}
         </div>
-
       </div>
 
-      {/* --- BOTTOM FEATURES BAR --- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6">
         {features.map((item) => {
           const IconComponent = item.icon;
@@ -235,7 +226,6 @@ export default function HeroSection() {
         })}
       </div>
 
-      {/* Swiper Active Bullet Color Override */}
       <style jsx global>{`
         .custom-swiper-pagination .swiper-pagination-bullet-active {
           background-color: #e11d48 !important;

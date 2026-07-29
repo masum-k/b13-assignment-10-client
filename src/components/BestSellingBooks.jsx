@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@heroui/react";
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Import Swiper React components and styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
@@ -74,7 +73,6 @@ export default function BestSellingBooks() {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-white">
-      {/* Header */}
       <div className="relative flex items-center justify-center mb-8">
         <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">
           Bestselling Books
@@ -88,9 +86,7 @@ export default function BestSellingBooks() {
         </Link>
       </div>
 
-      {/* Slider Container */}
       <div className="relative flex items-center gap-3">
-        {/* Left Nav Button */}
         <button
           type="button"
           onClick={() => swiperInstance?.slidePrev()}
@@ -100,7 +96,6 @@ export default function BestSellingBooks() {
           <ChevronLeft className="w-4 h-4" />
         </button>
 
-        {/* Swiper Track */}
         <div className="flex-1 overflow-hidden border-t border-l border-gray-200">
           <Swiper
             onSwiper={setSwiperInstance}
@@ -121,7 +116,6 @@ export default function BestSellingBooks() {
           </Swiper>
         </div>
 
-        {/* Right Nav Button */}
         <button
           type="button"
           onClick={() => swiperInstance?.slideNext()}
@@ -140,7 +134,6 @@ function BookCard({ item }) {
     <Card className="group relative bg-white p-4 rounded-none border-b border-r border-gray-200 shadow-none transition-all duration-200 hover:border-gray-900 hover:shadow-lg hover:z-10 flex flex-col justify-between h-full">
       <Card.Content className="p-0 flex flex-col justify-between h-full">
         <Link href={`/books/${item.id}`} className="flex-1 flex flex-col justify-between">
-          {/* Book Cover Image */}
           <div className="relative w-full aspect-3/4 mb-4 flex items-center justify-center overflow-hidden bg-gray-50">
             <Image
               src={item.coverImage}
@@ -151,13 +144,12 @@ function BookCard({ item }) {
             />
           </div>
 
-          {/* Book Details */}
           <div className="flex flex-col items-start w-full text-left">
-            <span className="text-[10px] text-red-500 font-medium tracking-wider uppercase mb-1">
+            <span className="text-[10px] text-rose-600 font-medium tracking-wider uppercase mb-1">
               {item.format}
             </span>
 
-            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 h-8 sm:h-9 mb-1 leading-snug group-hover:text-red-500 transition-colors">
+            <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 h-8 sm:h-9 mb-1 leading-snug group-hover:text-rose-600 transition-colors">
               {item.title}
             </h3>
 
