@@ -36,10 +36,33 @@ export default function Navbar() {
   }
 
   const navLinks = [
-    { title: "Pages", items: ["Home", "About Us", "Contact", "FAQ"] },
-    { title: "Shop", items: ["All Books", "Bestsellers", "New Releases", "Deals"] },
-    { title: "Help", items: ["Shipping Info", "Returns", "Order Status", "Support"] },
-    { title: "Theme", items: ["Light", "Dark", "System"] },
+    {
+      title: "Pages",
+      items: [
+        { name: "Home", href: "/" },
+        { name: "About Us", href: "/about" },
+        { name: "Contact", href: "/contact" },
+        { name: "FAQ", href: "/#faq" }, // Same-page scroll anchor
+      ],
+    },
+    {
+      title: "Shop",
+      items: [
+        { name: "All Books", href: "/books" },
+        { name: "Bestsellers", href: "/books?filter=bestsellers" },
+        { name: "New Releases", href: "/books?filter=new" },
+        { name: "Deals", href: "/books?filter=deals" },
+      ],
+    },
+    {
+      title: "Help",
+      items: [
+        { name: "Shipping Info", href: "/help/shipping" },
+        { name: "Returns", href: "/help/returns" },
+        { name: "Order Status", href: "/orders" },
+        { name: "Support", href: "/support" },
+      ],
+    },
   ];
 
   return (
@@ -70,21 +93,31 @@ export default function Navbar() {
                 <Dropdown.Trigger>
                   <div
                     onClick={() => setActiveTab(nav.title)}
-                    className={`flex items-center gap-1 transition-colors hover:text-black py-1 cursor-pointer select-none ${activeTab === nav.title
-                      ? "text-black font-semibold border-b-2 border-black -mb-2.25"
-                      : "text-gray-600"
+                    className={`flex items-center gap-1.5 transition-colors hover:text-slate-900 py-1 cursor-pointer select-none text-xs font-semibold ${activeTab === nav.title
+                        ? "text-red-600 border-b-2 border-red-600 -mb-2.25"
+                        : "text-slate-600"
                       }`}
                   >
                     <span>{nav.title}</span>
-                    <Plus className="w-3.5 h-3.5 text-gray-400" />
+                    <Plus className="w-3.5 h-3.5 text-slate-400" />
                   </div>
                 </Dropdown.Trigger>
 
-                <Dropdown.Popover>
+                <Dropdown.Popover className="bg-white border border-slate-200 rounded-xl shadow-md p-1">
                   <Dropdown.Menu aria-label={`${nav.title} Options`}>
                     {nav.items.map((item) => (
-                      <Dropdown.Item id={item} key={item}>
-                        <Label>{item}</Label>
+                      <Dropdown.Item
+                        key={item.name}
+                        textValue={item.name}
+                        className="hover:bg-slate-100 rounded-lg transition-colors"
+                      >
+
+                        <Link
+                          href={item.href}
+                          className="w-full h-full block text-xs font-medium text-slate-700 hover:text-slate-900 py-1 px-2"
+                        >
+                          {item.name}
+                        </Link>
                       </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
