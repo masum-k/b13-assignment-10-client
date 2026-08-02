@@ -4,8 +4,8 @@ import React, { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
-import ReaderUnauthCard from "@/components/ReaderUnauthCard";
 import { useSession } from "@/lib/auth-client";
+import Unauthorized from "@/components/Unauthorized";
 
 const useIsClient = () => useSyncExternalStore(() => () => {}, () => true, () => false);
 
@@ -81,7 +81,7 @@ export default function ReaderDashboardPage() {
     setEditingReview(null);
   };
 
-  if (session?.user?.role !== "reader") return <ReaderUnauthCard />;
+  if (session?.user?.role !== "reader") return <Unauthorized/>;
 
   return (
     <div className="min-h-screen bg-slate-50/50 p-4 sm:p-8 font-sans text-slate-900 max-w-7xl mx-auto flex flex-col gap-6">

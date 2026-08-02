@@ -4,9 +4,9 @@ import React, { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { addBook, updateBook, deleteBook, togglePublish } from "@/lib/actions/books";
-import LibrarianUnauthCard from "@/components/LibrarianUnauthCard";
 import { toast } from "react-toastify";
 import { useSession } from "@/lib/auth-client";
+import Unauthorized from "@/components/Unauthorized";
 
 const CATEGORIES = ["Classic", "Fiction", "Non-Fiction", "Science & Tech", "History", "Biography", "Children", "Fantasy & Sci-Fi"];
 const emptyForm = { title: "", author: "", category: "Classic", deliveryFee: "", description: "", coverUrl: "" };
@@ -29,7 +29,7 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
   if (!isClient) {
     return <div className="w-full h-96 bg-slate-100 rounded-2xl animate-pulse" />;
   }
-  if (session?.user?.role !== "librarian") return <LibrarianUnauthCard />;
+  if (session?.user?.role !== "librarian") return <Unauthorized />;
 
   // Image Upload
   const handleUploadToImgBB = async (e) => {

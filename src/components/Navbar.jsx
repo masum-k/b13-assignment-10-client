@@ -28,10 +28,14 @@ export default function Navbar() {
   }
 
   const dashboard = () => {
-    if (session?.user?.role === "librarian") {
+    const role = session?.user?.role;
+
+    if (role === "admin") {
+      router.push("/dashboard/admin");
+    } else if (role === "librarian") {
       router.push("/dashboard/librarian");
     } else {
-      router.push("/dashboard/reader")
+      router.push("/dashboard/reader");
     }
   }
 
@@ -94,8 +98,8 @@ export default function Navbar() {
                   <div
                     onClick={() => setActiveTab(nav.title)}
                     className={`flex items-center gap-1.5 transition-colors hover:text-slate-900 py-1 cursor-pointer select-none text-xs font-semibold ${activeTab === nav.title
-                        ? "text-red-600 border-b-2 border-red-600 -mb-2.25"
-                        : "text-slate-600"
+                      ? "text-red-600 border-b-2 border-red-600 -mb-2.25"
+                      : "text-slate-600"
                       }`}
                   >
                     <span>{nav.title}</span>
