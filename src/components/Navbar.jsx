@@ -28,8 +28,8 @@ export default function Navbar() {
   }
 
   const dashboard = () => {
-    if (session?.user?.role === "librarians") {
-      router.push("/dashboard/librarians");
+    if (session?.user?.role === "librarian") {
+      router.push("/dashboard/librarian");
     } else {
       router.push("/dashboard/reader")
     }

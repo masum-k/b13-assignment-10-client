@@ -1,9 +1,8 @@
-import React from "react";
 import Link from "next/link";
 import { ShieldAlert, ArrowLeft } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 
-export default function LibrarianUnauthCard() {
+export default function ReaderUnauthCard() {
 
   const { data: session, isPending } = useSession();
 
@@ -20,7 +19,7 @@ export default function LibrarianUnauthCard() {
       </h2>
 
       <p className="text-xs sm:text-sm text-gray-500 mb-6 leading-relaxed">
-        {session?.user?.role === "librarians" ?"You are unauthorized": "You need an active account to view this page. Please log in or sign up to continue."}
+        {session?.user?.role === "librarian" ?"You are unauthorized": "You need an active account to view this page. Please log in or sign up to continue."}
       </p>
 
       {/* Primary Action Button */}

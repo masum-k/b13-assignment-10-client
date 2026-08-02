@@ -130,12 +130,12 @@ export default function SignupPage() {
                                     Reader
                                 </Radio.Content>
                             </Radio>
-                            <Radio value="librarians">
+                            <Radio value="librarian">
                                 <Radio.Content>
                                     <Radio.Control>
                                         <Radio.Indicator />
                                     </Radio.Control>
-                                    Librarians
+                                    Librarian
                                 </Radio.Content>
                             </Radio>
                         </RadioGroup>
