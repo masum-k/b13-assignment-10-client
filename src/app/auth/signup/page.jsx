@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card, Button, Link, TextField, Label, InputGroup, Input, Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeSlash, Person, At, ShieldKeyhole } from "@gravity-ui/icons";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signUp } from "@/lib/auth-client";
 
 export default function SignupPage() {
@@ -12,6 +12,9 @@ export default function SignupPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("reader")
+
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirect") || "/";
 
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +36,7 @@ export default function SignupPage() {
                 name,
                 role,
             });
-            
+
             if (authError) {
                 setError(authError.message || "Something went wrong during signup.");
             } else {
@@ -41,7 +44,7 @@ export default function SignupPage() {
                 setName("");
                 setEmail("");
                 setPassword("");
-                router.push("/");
+                router.push(redirectTo);
             }
         } catch (err) {
             setError("An unexpected network error occurred.");
@@ -167,7 +170,7 @@ export default function SignupPage() {
                     {/* Navigation Option */}
                     <div className="text-center pt-4 border-t border-gray-100 mt-2 text-xs text-gray-500">
                         Already have an account?{" "}
-                        <Link href="/auth/signin" className="font-semibold cursor-pointer text-xs text-red-600 hover:text-red-700 hover:underline">
+                        <Link href={`/auth/signin?redirect=${redirectTo}`} className="font-semibold cursor-pointer text-xs text-red-600 hover:text-red-700 hover:underline">
                             Sign in instead
                         </Link>
                     </div>

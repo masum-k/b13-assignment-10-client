@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, Button, Link, TextField, Label, InputGroup, Input } from "@heroui/react";
 import { Eye, EyeSlash, At, ShieldKeyhole } from "@gravity-ui/icons";
 import { signIn } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SigninPage() {
     const router = useRouter();
@@ -12,6 +12,9 @@ export default function SigninPage() {
     // Form fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirect") || "/";
 
     // UI States
     const [isVisible, setIsVisible] = useState(false);
@@ -30,13 +33,12 @@ export default function SigninPage() {
             const { data, error: authError } = await signIn.email({
                 email,
                 password,
-                callbackURL: "/",
             });
 
             if (authError) {
                 setError(authError.message || "Invalid email or password.");
             } else {
-                router.push("/");
+                router.push(redirectTo);
             }
         } catch (err) {
             setError("An unexpected network error occurred.");
@@ -124,7 +126,7 @@ export default function SigninPage() {
                     {/* Navigation Option */}
                     <div className="text-center pt-4 border-t border-gray-100 mt-2 text-xs text-gray-500">
                         Don&apos;t have an account?{" "}
-                        <Link href="/auth/signup" className="font-semibold cursor-pointer text-xs text-red-600 hover:text-red-700 hover:underline">
+                        <Link href={`/auth/signup?redirect=${redirectTo}`} className="font-semibold cursor-pointer text-xs text-red-600 hover:text-red-700 hover:underline">
                             Sign up instead
                         </Link>
                     </div>
