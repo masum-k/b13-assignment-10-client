@@ -120,37 +120,10 @@ export default function BookDetailsPage({ params }) {
     book.status === "Pending Delivery" ||
     isLibrarianOwner;
 
-  const handleStripeCheckout = async () => {
+  const handleRedirect = async () => {
     if (!session?.user) {
-      // Redirect to signin with the current book URL as the return target
       router.push(`/auth/signin?redirect=/books/${book.id}`);
       return;
-    }
-
-    setIsCheckoutLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bookId: book.id,
-          bookTitle: book.title,
-          deliveryFee: book.deliveryFee,
-          userEmail: currentUser.email,
-        }),
-      });
-
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert("Failed to initiate Stripe session.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Checkout error occurred.");
-    } finally {
-      setIsCheckoutLoading(false);
     }
   }
 
@@ -330,7 +303,7 @@ export default function BookDetailsPage({ params }) {
           <Button
             isDisabled={isDeliveryDisabled}
             isLoading={isCheckoutLoading}
-            onClick={handleStripeCheckout}
+            onClick={handleRedirect}
             className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold text-xs py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs disabled:bg-slate-200 disabled:text-slate-400"
             endContent={!isCheckoutLoading && <ArrowUpRight className="w-4 h-4" />}
           >

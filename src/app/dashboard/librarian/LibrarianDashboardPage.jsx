@@ -12,23 +12,21 @@ const CATEGORIES = ["Classic", "Fiction", "Non-Fiction", "Science & Tech", "Hist
 const emptyForm = { title: "", author: "", category: "Classic", deliveryFee: "", description: "", coverUrl: "" };
 
 export default function LibrarianDashboardPage({ librarian, librarianBook = [] }) {
-  const isClient = useSyncExternalStore(() => () => { }, () => true, () => false);
+  const isClient = useSyncExternalStore(() => () => {}, () => true, () => false);
   const [inventory, setInventory] = useState(librarianBook);
-  const [prevLibrarianBook, setPrevLibrarianBook] = useState(librarianBook);
+  const [prevBook, setPrevBook] = useState(librarianBook);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [formData, setFormData] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
 
-  if (librarianBook !== prevLibrarianBook) {
-    setPrevLibrarianBook(librarianBook);
+  if (librarianBook !== prevBook) {
+    setPrevBook(librarianBook);
     setInventory(librarianBook || []);
   }
 
-  if (!isClient) {
-    return <div className="w-full h-96 bg-slate-100 rounded-2xl animate-pulse" />;
-  }
+  if (!isClient) return <div className="w-full h-96 bg-slate-100 rounded-2xl animate-pulse" />;
   if (session?.user?.role !== "librarian") return <Unauthorized />;
 
   // Image Upload
@@ -67,10 +65,10 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
       ...formData,
       deliveryFee: parseFloat(formData.deliveryFee) || 0,
       cover: formData.coverUrl,
-      status: editingBook?.status || "Pending",
+      status: editingBook && editingBook.status ? editingBook.status : "Pending Approval",
       requestCount: editingBook?.requestCount || 0,
-      isPublished: editingBook?.isPublished || false,
-      librarian: librarian.id,
+      isPublished: editingBook ? editingBook.isPublished : false,
+      librarian: librarian?.id || librarian?._id,
     };
 
     try {
@@ -82,7 +80,7 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
       } else {
         const res = typeof addBook === "function" ? await addBook(payload) : null;
         setInventory((prev) => [{ id: res?.insertedId || res?._id || `BK-${Date.now()}`, ...payload }, ...prev]);
-        toast.success("Added!");
+        toast.success("Submitted for approval!");
       }
       setIsModalOpen(false);
     } catch {
@@ -92,14 +90,36 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
 
   // Status & Actions
   const handleStatusChange = async (bookId, newStatus) => {
-    if (typeof updateBook === "function") await updateBook(bookId, { status: newStatus });
-    setInventory((prev) => prev.map((b) => ((b.id || b._id) === bookId ? { ...b, status: newStatus } : b)));
+    if (typeof updateBook === "function") await updateBook(bookId, { deliveryStatus: newStatus });
+    setInventory((prev) => prev.map((b) => ((b.id || b._id) === bookId ? { ...b, deliveryStatus: newStatus } : b)));
     toast.success(`Status: ${newStatus}`);
   };
 
-  const handleTogglePublish = async (bookId, current) => {
-    if (typeof togglePublish === "function") await togglePublish(bookId, !current);
-    setInventory((prev) => prev.map((b) => ((b.id || b._id) === bookId ? { ...b, isPublished: !current } : b)));
+  const handleTogglePublish = async (book) => {
+    const id = book.id || book._id;
+    const approvalStatus = book.status || "Pending Approval";
+
+    // Strictly guard against publishing unapproved books
+    if (approvalStatus === "Pending Approval") {
+      toast.error("Cannot publish until approved by Admin.");
+      return;
+    }
+
+    const nextState = !book.isPublished;
+
+    // ONLY update `isPublished`. Do NOT mutate `status` so delivery statuses remain untouched.
+    setInventory((prev) =>
+      prev.map((b) => ((b.id || b._id) === id ? { ...b, isPublished: nextState } : b))
+    );
+
+    try {
+      if (typeof togglePublish === "function") await togglePublish(id, nextState);
+      toast.info(nextState ? "Book Published" : "Book Unpublished");
+    } catch {
+      // Revert on error
+      setInventory((prev) => prev.map((b) => ((b.id || b._id) === id ? book : b)));
+      toast.error("Failed to update status");
+    }
   };
 
   const handleDelete = async (bookId) => {
@@ -117,7 +137,7 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
       <div className="flex justify-between items-center border-b pb-6">
         <div>
           <h1 className="text-3xl font-bold">Librarian Dashboard</h1>
-          <p className="text-sm text-gray-500">Welcome, <span className="font-semibold text-indigo-600">{librarian.name}</span></p>
+          <p className="text-sm text-gray-500">Welcome, <span className="font-semibold text-indigo-600">{librarian?.name || "Librarian"}</span></p>
         </div>
         <button onClick={() => { setEditingBook(null); setFormData(emptyForm); setIsModalOpen(true); }} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
           + Add New Book
@@ -125,9 +145,10 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
       </div>
 
       {/* Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <MetricCard label="Total Books" value={inventory.length} />
-        <MetricCard label="Published" value={inventory.filter((b) => b.isPublished).length} color="text-emerald-600" />
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
+        <MetricCard label="Total Books Listed" value={inventory.length} />
+        <MetricCard label="Published Books" value={inventory.filter((b) => b.isPublished).length} color="text-emerald-600" />
+        <MetricCard label="Pending Approval" value={inventory.filter((b) => (b.status || "Pending Approval") === "Pending Approval").length} color="text-amber-600" />
         <MetricCard label="Borrow Requests" value={totalRequests} color="text-indigo-600" />
       </div>
 
@@ -165,7 +186,7 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
               <th className="p-4">Book</th>
               <th className="p-4">Category</th>
               <th className="p-4">Fee</th>
-              <th className="p-4">Status</th>
+              <th className="p-4">Approval Status</th>
               <th className="p-4">Publish Switch</th>
               <th className="p-4 text-right">Actions</th>
             </tr>
@@ -176,7 +197,7 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
                 key={book.id || book._id}
                 book={book}
                 onEdit={() => { setEditingBook(book); setFormData({ title: book.title, author: book.author, category: book.category, deliveryFee: String(book.deliveryFee || ""), description: book.description || "", coverUrl: book.cover || book.coverUrl || "" }); setIsModalOpen(true); }}
-                onToggle={() => handleTogglePublish(book.id || book._id, book.isPublished)}
+                onToggle={() => handleTogglePublish(book)}
                 onDelete={() => handleDelete(book.id || book._id)}
               />
             ))}
@@ -230,10 +251,11 @@ const TableWrapper = ({ title, isEmpty, children }) => (
 
 const DeliveryRow = ({ book, onStatusChange }) => {
   const id = book.id || book._id;
-  const status = book.status || "Pending";
+  // Explicitly check for deliveryStatus first, defaulting to 'Pending'
+  const deliveryStatus = book.deliveryStatus || "Pending";
 
-  const dotColor = status === "Delivered" ? "bg-emerald-500" : status === "Dispatched" ? "bg-blue-500" : "bg-amber-500";
-  const badgeBg = status === "Delivered" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : status === "Dispatched" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-amber-50 text-amber-700 border-amber-200";
+  const dotColor = deliveryStatus === "Delivered" ? "bg-emerald-500" : deliveryStatus === "Dispatched" ? "bg-blue-500" : "bg-amber-500";
+  const badgeBg = deliveryStatus === "Delivered" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : deliveryStatus === "Dispatched" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-amber-50 text-amber-700 border-amber-200";
 
   return (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
@@ -243,11 +265,11 @@ const DeliveryRow = ({ book, onStatusChange }) => {
       <td className="p-4">
         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${badgeBg}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
-          {status}
+          {deliveryStatus}
         </span>
       </td>
       <td className="p-4 text-right">
-        <select value={status} onChange={(e) => onStatusChange(id, e.target.value)} className="p-1 border rounded text-xs dark:bg-gray-700">
+        <select value={deliveryStatus} onChange={(e) => onStatusChange(id, e.target.value)} className="p-1 border rounded text-xs dark:bg-gray-700">
           <option value="Pending">Pending</option>
           <option value="Dispatched">Dispatched</option>
           <option value="Delivered">Delivered</option>
@@ -257,53 +279,50 @@ const DeliveryRow = ({ book, onStatusChange }) => {
   );
 };
 
-/* SEPARATED STATUS BADGE AND TOGGLE SWITCH */
-const BookRow = ({ book, onEdit, onToggle, onDelete }) => (
-  <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
-    <td className="p-4 flex items-center gap-3">
-      <div className="relative w-10 h-14 bg-gray-100 rounded overflow-hidden">
-        <Image src={book.cover || book.coverUrl || "/placeholder-book.png"} alt={book.title} fill className="object-cover" sizes="40px" />
-      </div>
-      <div><p className="font-semibold">{book.title}</p><p className="text-xs text-gray-400">{book.author}</p></div>
-    </td>
-    <td className="p-4">{book.category}</td>
-    <td className="p-4">${parseFloat(book.deliveryFee || 0).toFixed(2)}</td>
-    
-    {/* 1. STATUS BADGE */}
-    <td className="p-4">
-      <span
-        className={`px-2.5 py-1 rounded-full text-xs font-medium border ${
-          book.isPublished
-            ? "bg-emerald-50 text-emerald-700 border-emerald-300"
-            : "bg-amber-50 text-amber-700 border-amber-300"
-        }`}
-      >
-        {book.isPublished ? "Published" : "Draft"}
-      </span>
-    </td>
+const BookRow = ({ book, onEdit, onToggle, onDelete }) => {
+  const approvalStatus = book.status || "Pending Approval";
+  const isPending = approvalStatus === "Pending Approval";
 
-    {/* 2. SWITCH COLUMN */}
-    <td className="p-4">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={book.isPublished}
-        onClick={onToggle}
-        className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-          book.isPublished ? "bg-emerald-500" : "bg-gray-300 dark:bg-gray-600"
-        }`}
-      >
-        <span
-          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-            book.isPublished ? "translate-x-4" : "translate-x-0"
+  const badgeColor =
+    approvalStatus === "Approved" || book.isPublished
+      ? "bg-emerald-50 text-emerald-700 border-emerald-300"
+      : isPending
+      ? "bg-amber-50 text-amber-700 border-amber-300"
+      : "bg-gray-100 text-gray-700 border-gray-300";
+
+  return (
+    <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
+      <td className="p-4 flex items-center gap-3">
+        <div className="relative w-10 h-14 bg-gray-100 rounded overflow-hidden">
+          <Image src={book.cover || book.coverUrl || "/placeholder-book.png"} alt={book.title} fill className="object-cover" sizes="40px" />
+        </div>
+        <div><p className="font-semibold">{book.title}</p><p className="text-xs text-gray-400">{book.author}</p></div>
+      </td>
+      <td className="p-4">{book.category}</td>
+      <td className="p-4">${parseFloat(book.deliveryFee || 0).toFixed(2)}</td>
+      <td className="p-4">
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${badgeColor}`}>{approvalStatus}</span>
+      </td>
+      <td className="p-4">
+        <button
+          type="button"
+          role="switch"
+          disabled={isPending}
+          aria-checked={Boolean(book.isPublished)}
+          onClick={() => {
+            if (!isPending) onToggle();
+          }}
+          className={`relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+            isPending ? "bg-gray-200 cursor-not-allowed dark:bg-gray-700 opacity-60" : book.isPublished ? "bg-emerald-500 cursor-pointer" : "bg-gray-300 cursor-pointer dark:bg-gray-600"
           }`}
-        />
-      </button>
-    </td>
-
-    <td className="p-4 text-right space-x-2">
-      <button onClick={onEdit} className="text-indigo-600 font-medium">Edit</button>
-      <button onClick={onDelete} className="text-rose-600 font-medium">Delete</button>
-    </td>
-  </tr>
-);
+        >
+          <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${book.isPublished ? "translate-x-4" : "translate-x-0"}`} />
+        </button>
+      </td>
+      <td className="p-4 text-right space-x-2">
+        <button onClick={onEdit} className="text-indigo-600 font-medium">Edit</button>
+        <button onClick={onDelete} className="text-rose-600 font-medium">Delete</button>
+      </td>
+    </tr>
+  );
+};
