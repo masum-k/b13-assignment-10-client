@@ -161,7 +161,14 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
       <TableWrapper title="Your Book Inventory" isEmpty={inventory.length === 0}>
         <table className="w-full text-left text-sm">
           <thead className="bg-gray-50 dark:bg-gray-700/50 text-xs uppercase text-gray-500">
-            <tr><th className="p-4">Book</th><th className="p-4">Category</th><th className="p-4">Fee</th><th className="p-4">Status</th><th className="p-4 text-right">Actions</th></tr>
+            <tr>
+              <th className="p-4">Book</th>
+              <th className="p-4">Category</th>
+              <th className="p-4">Fee</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Publish Switch</th>
+              <th className="p-4 text-right">Actions</th>
+            </tr>
           </thead>
           <tbody className="divide-y">
             {inventory.map((book) => (
@@ -224,14 +231,21 @@ const TableWrapper = ({ title, isEmpty, children }) => (
 const DeliveryRow = ({ book, onStatusChange }) => {
   const id = book.id || book._id;
   const status = book.status || "Pending";
-  const badgeClass = status === "Delivered" ? "bg-emerald-50 text-emerald-700" : status === "Dispatched" ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700";
+
+  const dotColor = status === "Delivered" ? "bg-emerald-500" : status === "Dispatched" ? "bg-blue-500" : "bg-amber-500";
+  const badgeBg = status === "Delivered" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : status === "Dispatched" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-amber-50 text-amber-700 border-amber-200";
 
   return (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
       <td className="p-4 font-medium">{book.clientName || book.userName || "Library Patron"}</td>
       <td className="p-4">{book.title}</td>
       <td className="p-4 text-gray-400">{book.requestDate || new Date().toLocaleDateString()}</td>
-      <td className="p-4"><span className={`px-2.5 py-1 rounded-full text-xs font-medium ${badgeClass}`}>{status}</span></td>
+      <td className="p-4">
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${badgeBg}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+          {status}
+        </span>
+      </td>
       <td className="p-4 text-right">
         <select value={status} onChange={(e) => onStatusChange(id, e.target.value)} className="p-1 border rounded text-xs dark:bg-gray-700">
           <option value="Pending">Pending</option>
@@ -243,6 +257,7 @@ const DeliveryRow = ({ book, onStatusChange }) => {
   );
 };
 
+/* SEPARATED STATUS BADGE AND TOGGLE SWITCH */
 const BookRow = ({ book, onEdit, onToggle, onDelete }) => (
   <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
     <td className="p-4 flex items-center gap-3">
@@ -253,11 +268,39 @@ const BookRow = ({ book, onEdit, onToggle, onDelete }) => (
     </td>
     <td className="p-4">{book.category}</td>
     <td className="p-4">${parseFloat(book.deliveryFee || 0).toFixed(2)}</td>
+    
+    {/* 1. STATUS BADGE */}
     <td className="p-4">
-      <button onClick={onToggle} className={`px-2.5 py-1 rounded-full text-xs font-medium border ${book.isPublished ? "bg-emerald-50 text-emerald-700 border-emerald-300" : "bg-amber-50 text-amber-700 border-amber-300"}`}>
+      <span
+        className={`px-2.5 py-1 rounded-full text-xs font-medium border ${
+          book.isPublished
+            ? "bg-emerald-50 text-emerald-700 border-emerald-300"
+            : "bg-amber-50 text-amber-700 border-amber-300"
+        }`}
+      >
         {book.isPublished ? "Published" : "Draft"}
+      </span>
+    </td>
+
+    {/* 2. SWITCH COLUMN */}
+    <td className="p-4">
+      <button
+        type="button"
+        role="switch"
+        aria-checked={book.isPublished}
+        onClick={onToggle}
+        className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+          book.isPublished ? "bg-emerald-500" : "bg-gray-300 dark:bg-gray-600"
+        }`}
+      >
+        <span
+          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+            book.isPublished ? "translate-x-4" : "translate-x-0"
+          }`}
+        />
       </button>
     </td>
+
     <td className="p-4 text-right space-x-2">
       <button onClick={onEdit} className="text-indigo-600 font-medium">Edit</button>
       <button onClick={onDelete} className="text-rose-600 font-medium">Delete</button>

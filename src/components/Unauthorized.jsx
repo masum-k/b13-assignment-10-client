@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card, Button, Chip } from "@heroui/react";
 import { ShieldAlert, ArrowLeft, LogIn, Home } from "lucide-react";
+import Link from "next/link";
 
 export default function Unauthorized() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function Unauthorized() {
     <main className="min-h-screen w-full bg-content1/50 flex items-center justify-center p-4 sm:p-6 font-sans">
       <Card className="max-w-md w-full border border-default-200/80 shadow-lg bg-background">
         <Card className="p-8 sm:p-10 flex flex-col items-center text-center space-y-6">
-          
+
           {/* ICON BADGE */}
           <div className="relative flex items-center justify-center">
             <div className="w-20 h-20 rounded-full bg-danger-50 flex items-center justify-center text-danger border border-danger-200/60 shadow-inner">
@@ -42,7 +42,8 @@ export default function Unauthorized() {
           {/* ACTION BUTTONS */}
           <div className="w-full space-y-3 pt-2">
             {/* Primary Action: Sign In */}
-            <Link
+            <Button
+              as={Link}
               href="/auth/signin"
               color="primary"
               size="lg"
@@ -50,7 +51,7 @@ export default function Unauthorized() {
               startContent={<LogIn className="w-4 h-4" />}
             >
               Sign In to Continue
-            </Link>
+            </Button>
 
             {/* Secondary Actions */}
             <div className="grid grid-cols-2 gap-3">
