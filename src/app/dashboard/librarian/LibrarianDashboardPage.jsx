@@ -99,15 +99,13 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
     const id = book.id || book._id;
     const approvalStatus = book.status || "Pending Approval";
 
-    // Strictly guard against publishing unapproved books
-    if (approvalStatus === "Pending Approval") {
-      toast.error("Cannot publish until approved by Admin.");
+    if (approvalStatus === "Pending Approval" || approvalStatus === "Rejected") {
+      toast.error("Cannot publish books that are not approved.");
       return;
     }
 
     const nextState = !book.isPublished;
 
-    // ONLY update `isPublished`. Do NOT mutate `status` so delivery statuses remain untouched.
     setInventory((prev) =>
       prev.map((b) => ((b.id || b._id) === id ? { ...b, isPublished: nextState } : b))
     );
@@ -116,7 +114,6 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
       if (typeof togglePublish === "function") await togglePublish(id, nextState);
       toast.info(nextState ? "Book Published" : "Book Unpublished");
     } catch {
-      // Revert on error
       setInventory((prev) => prev.map((b) => ((b.id || b._id) === id ? book : b)));
       toast.error("Failed to update status");
     }
@@ -186,7 +183,7 @@ export default function LibrarianDashboardPage({ librarian, librarianBook = [] }
               <th className="p-4">Book</th>
               <th className="p-4">Category</th>
               <th className="p-4">Fee</th>
-              <th className="p-4">Approval Status</th>
+              <th className="p-4">Status</th>
               <th className="p-4">Publish Switch</th>
               <th className="p-4 text-right">Actions</th>
             </tr>
@@ -251,11 +248,14 @@ const TableWrapper = ({ title, isEmpty, children }) => (
 
 const DeliveryRow = ({ book, onStatusChange }) => {
   const id = book.id || book._id;
-  // Explicitly check for deliveryStatus first, defaulting to 'Pending'
   const deliveryStatus = book.deliveryStatus || "Pending";
+  const approvalStatus = book.status || "Pending Approval";
+
+  // If rejected, disable status updating/changing
+  const isRejected = approvalStatus === "Rejected";
 
   const dotColor = deliveryStatus === "Delivered" ? "bg-emerald-500" : deliveryStatus === "Dispatched" ? "bg-blue-500" : "bg-amber-500";
-  const badgeBg = deliveryStatus === "Delivered" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : deliveryStatus === "Dispatched" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-amber-50 text-amber-700 border-amber-200";
+  const badgeBg = deliveryStatus === "Delivered" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : deliveryStatus === "Dispatched" ? "bg-blue-50 text-blue-700 border-emerald-200" : "bg-amber-50 text-amber-700 border-amber-200";
 
   return (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
@@ -269,7 +269,14 @@ const DeliveryRow = ({ book, onStatusChange }) => {
         </span>
       </td>
       <td className="p-4 text-right">
-        <select value={deliveryStatus} onChange={(e) => onStatusChange(id, e.target.value)} className="p-1 border rounded text-xs dark:bg-gray-700">
+        <select 
+          value={deliveryStatus} 
+          disabled={isRejected}
+          onChange={(e) => {
+            if (!isRejected) onStatusChange(id, e.target.value);
+          }} 
+          className={`p-1 border rounded text-xs dark:bg-gray-700 ${isRejected ? "opacity-60 cursor-not-allowed bg-gray-100" : ""}`}
+        >
           <option value="Pending">Pending</option>
           <option value="Dispatched">Dispatched</option>
           <option value="Delivered">Delivered</option>
@@ -281,14 +288,22 @@ const DeliveryRow = ({ book, onStatusChange }) => {
 
 const BookRow = ({ book, onEdit, onToggle, onDelete }) => {
   const approvalStatus = book.status || "Pending Approval";
-  const isPending = approvalStatus === "Pending Approval";
+  
+  const isDisabled = approvalStatus === "Pending Approval" || approvalStatus === "Rejected";
+
+  let displayStatus = approvalStatus;
+  if (approvalStatus === "Approved") {
+    displayStatus = book.isPublished ? "Published" : "Unpublished";
+  }
 
   const badgeColor =
-    approvalStatus === "Approved" || book.isPublished
+    displayStatus === "Published"
       ? "bg-emerald-50 text-emerald-700 border-emerald-300"
-      : isPending
-      ? "bg-amber-50 text-amber-700 border-amber-300"
-      : "bg-gray-100 text-gray-700 border-gray-300";
+      : displayStatus === "Unpublished"
+      ? "bg-blue-50 text-blue-700 border-emerald-300"
+      : approvalStatus === "Rejected"
+      ? "bg-rose-50 text-rose-700 border-rose-300"
+      : "bg-amber-50 text-amber-700 border-amber-300";
 
   return (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30">
@@ -301,19 +316,19 @@ const BookRow = ({ book, onEdit, onToggle, onDelete }) => {
       <td className="p-4">{book.category}</td>
       <td className="p-4">${parseFloat(book.deliveryFee || 0).toFixed(2)}</td>
       <td className="p-4">
-        <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${badgeColor}`}>{approvalStatus}</span>
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${badgeColor}`}>{displayStatus}</span>
       </td>
       <td className="p-4">
         <button
           type="button"
           role="switch"
-          disabled={isPending}
+          disabled={isDisabled}
           aria-checked={Boolean(book.isPublished)}
           onClick={() => {
-            if (!isPending) onToggle();
+            if (!isDisabled) onToggle();
           }}
           className={`relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-            isPending ? "bg-gray-200 cursor-not-allowed dark:bg-gray-700 opacity-60" : book.isPublished ? "bg-emerald-500 cursor-pointer" : "bg-gray-300 cursor-pointer dark:bg-gray-600"
+            isDisabled ? "bg-gray-200 cursor-not-allowed dark:bg-gray-700 opacity-60" : book.isPublished ? "bg-emerald-500 cursor-pointer" : "bg-gray-300 cursor-pointer dark:bg-gray-600"
           }`}
         >
           <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${book.isPublished ? "translate-x-4" : "translate-x-0"}`} />
