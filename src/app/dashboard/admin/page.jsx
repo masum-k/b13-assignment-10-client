@@ -1,11 +1,12 @@
 import React from 'react';
 import { getBooks } from '@/lib/api/books';
+import AdminDashboard from './AdminDashboard';
 
 const AdminCompaniesPage = async () => {
     const books = await getBooks();
     return (
         <div>
-            <h2>Books le lo {books.length}</h2>
+            <AdminDashboard books={books}/>
         </div>
     );
 };

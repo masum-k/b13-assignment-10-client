@@ -1,3 +1,8 @@
+'use server'
+
+import { revalidatePath } from "next/cache";
+import { serverMutation } from "../core/server";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getLibrarianBook = async (librarianBook) => {
@@ -48,3 +53,9 @@ export const togglePublish = async (bookId, isPublished) => {
 
     return res.json();
 };
+
+export const bookUpdate = async(id, data ) => {
+    const result = serverMutation(`${id}`, data, 'PATCH')
+    revalidatePath('/dashboard/admin')
+    return result;
+}
