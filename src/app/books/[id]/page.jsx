@@ -202,6 +202,11 @@ export default function BookDetailsPage({ params }) {
       const data = await getBooksbyId(id);
       const fetchedBook = data.book || data;
 
+      // Map database status ("approved") to "Available" while handling other custom statuses safely
+      const rawStatus = fetchedBook?.status || "Available";
+      const mappedStatus =
+        rawStatus.toLowerCase() === "approved" ? "Available" : rawStatus;
+
       const formattedBook = {
         id: fetchedBook?._id || fetchedBook?.id || id,
         title: fetchedBook?.title || "Untitled Book",
@@ -215,7 +220,7 @@ export default function BookDetailsPage({ params }) {
           fetchedBook?.cover ||
           "/placeholder-book.jpg",
         deliveryFee: fetchedBook?.deliveryFee ?? 4.99,
-        status: fetchedBook?.status || "Available",
+        status: mappedStatus,
         dateAdded: fetchedBook?.createdAt
           ? new Date(fetchedBook.createdAt).toISOString().split("T")[0]
           : fetchedBook?.dateAdded || "N/A",
