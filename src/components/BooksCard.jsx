@@ -12,13 +12,16 @@ export default function BooksCard({ book }) {
   // 2. Early return guard
   if (!book) return null;
 
-  // Ensure book is handled as an array
+  // Ensure book is handled as an array and ONLY include books approved by the admin
   const booksList = Array.isArray(book) ? book : [book];
+  const approvedBooks = booksList.filter(
+    (item) => item?.status?.toLowerCase() === "approved"
+  );
 
   const categories = ["All", "Classic", "Fiction", "Sci-Fi", "Romance"];
 
-  // Search & Filter logic
-  const filteredBooks = booksList.filter((item) => {
+  // Search & Filter logic applied to approved books only
+  const filteredBooks = approvedBooks.filter((item) => {
     const matchesSearch =
       item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.author?.toLowerCase().includes(searchTerm.toLowerCase());

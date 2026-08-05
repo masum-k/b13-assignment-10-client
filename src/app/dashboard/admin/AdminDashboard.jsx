@@ -61,14 +61,14 @@ export default function AdminDashboard({ books }) {
   const handleApprove = async (id) => {
     const result = await bookUpdate(id, { status: 'Approved' });
     if (result.modifiedCount || result.acknowledged) {
-      toast.success(`Approved book with ID: ${id}`, result);
+      toast.success(`Book Approved`, result);
     }
   };
 
   const handleReject = async (id) => {
     const result = await bookUpdate(id, { status: 'Rejected' });
     if (result.modifiedCount || result.acknowledged) {
-      toast.dismiss(`Rejected book with ID: ${id}`, result);
+      toast.error(`Book Rejected`, result);
     }
   };
 
