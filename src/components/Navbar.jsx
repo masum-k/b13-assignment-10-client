@@ -214,7 +214,7 @@ export default function Navbar() {
 
               {/* Cart Section */}
               <Link
-                href="/cart"
+                href="/"
                 className="flex items-center gap-1 sm:gap-1.5 hover:text-black transition-colors"
               >
                 <ShoppingBag className="w-4 h-4 text-gray-700" />
