@@ -5,28 +5,34 @@ import Image from "next/image";
 import { Card, Button, Link } from "@heroui/react";
 
 export default function BooksCard({ book }) {
-  // 1. Hooks called at top level
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // 2. Early return guard
   if (!book) return null;
 
-  // Ensure book is handled as an array and ONLY include books approved by the admin
+  // Ensure book is safely parsed as an array
   const booksList = Array.isArray(book) ? book : [book];
-  const approvedBooks = booksList.filter(
-    (item) => item?.status?.toLowerCase() === "approved"
-  );
 
-  const categories = ["All", "Classic", "Fiction", "Sci-Fi", "Romance"];
+  // 1. Flexible, case-insensitive approval check to prevent production filtering drops
+  const approvedBooks = booksList.filter((item) => {
+    if (!item) return false;
+    const status = String(item.status || "").trim().toLowerCase();
+    // Fallback: if status field is completely missing in production data, allow it through or check if it's explicitly approved
+    return status === "approved" || !item.status;
+  });
 
-  // Search & Filter logic applied to approved books only
+  // 2. Dynamically extract unique categories from actual book records so they always match
+  const dynamicCategories = ["All", ...Array.from(new Set(approvedBooks.map((item) => item.category).filter(Boolean)))];
+
+  // Search & Filter logic applied safely
   const filteredBooks = approvedBooks.filter((item) => {
     const matchesSearch =
       item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.author?.toLowerCase().includes(searchTerm.toLowerCase());
+    
     const matchesCategory =
       selectedCategory === "All" || item.category === selectedCategory;
+      
     return matchesSearch && matchesCategory;
   });
 
@@ -60,7 +66,7 @@ export default function BooksCard({ book }) {
         />
 
         <div className="flex gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-          {categories.map((cat) => (
+          {dynamicCategories.map((cat) => (
             <Button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -82,6 +88,7 @@ export default function BooksCard({ book }) {
           if (!singleBook) return null;
 
           const bookId = singleBook._id?.$oid || singleBook._id || singleBook.id;
+          const coverImage = singleBook.coverUrl || singleBook.cover || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400";
 
           return (
             <Card
@@ -89,10 +96,10 @@ export default function BooksCard({ book }) {
               className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col gap-3 shadow-xs hover:shadow-md transition-shadow"
             >
               {/* Cover Image Header */}
-              <Card.Header className="p-0 border-none flex flex-col gap-0">
+              <div className="p-0 border-none flex flex-col gap-0">
                 <div className="h-48 relative w-full rounded-xl overflow-hidden bg-slate-100">
                   <Image
-                    src={singleBook.cover || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400"}
+                    src={coverImage}
                     alt={singleBook.title || "Book cover"}
                     fill
                     className="object-cover"
@@ -103,22 +110,22 @@ export default function BooksCard({ book }) {
                     </span>
                   )}
                 </div>
-              </Card.Header>
+              </div>
 
               {/* Title & Author Content */}
-              <Card.Content className="p-0 flex-1 flex flex-col justify-between gap-2">
+              <div className="p-0 flex-1 flex flex-col justify-between gap-2">
                 <div>
-                  <Card.Title className="text-sm font-bold truncate text-slate-800">
+                  <h3 className="text-sm font-bold truncate text-slate-800">
                     {singleBook.title}
-                  </Card.Title>
-                  <Card.Description className="text-xs text-slate-500 truncate">
+                  </h3>
+                  <p className="text-xs text-slate-500 truncate">
                     {singleBook.author}
-                  </Card.Description>
+                  </p>
                 </div>
-              </Card.Content>
+              </div>
 
               {/* Footer */}
-              <Card.Footer className="p-0 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+              <div className="p-0 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-300">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   Available
@@ -130,7 +137,7 @@ export default function BooksCard({ book }) {
                 >
                   Borrow
                 </Link>
-              </Card.Footer>
+              </div>
             </Card>
           );
         })}
