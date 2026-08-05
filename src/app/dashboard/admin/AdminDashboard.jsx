@@ -62,6 +62,7 @@ export default function AdminDashboard({ books }) {
     const result = await bookUpdate(id, { status: 'Approved' });
     if (result.modifiedCount || result.acknowledged) {
       toast.success(`Book Approved`, result);
+      router.refresh();
     }
   };
 
@@ -69,6 +70,7 @@ export default function AdminDashboard({ books }) {
     const result = await bookUpdate(id, { status: 'Rejected' });
     if (result.modifiedCount || result.acknowledged) {
       toast.error(`Book Rejected`, result);
+      router.refresh();
     }
   };
 

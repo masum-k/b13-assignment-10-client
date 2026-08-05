@@ -55,7 +55,7 @@ export const togglePublish = async (bookId, isPublished) => {
 };
 
 export const bookUpdate = async(id, data ) => {
-    const result = serverMutation(`${id}`, data, 'PATCH')
+    const result = await serverMutation(`${id}`, data, 'PATCH')
     revalidatePath('/dashboard/admin')
     return result;
 }
