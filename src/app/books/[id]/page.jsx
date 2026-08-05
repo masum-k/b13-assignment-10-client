@@ -173,7 +173,7 @@ export default function BookDetailsPage({ params }) {
           <Card className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xs">
             <Card className="p-0 space-y-6">
               <div className="flex flex-col sm:flex-row gap-6 items-start">
-                <div className="relative w-full sm:w-48 h-64 bg-slate-100 border border-slate-200 rounded-xl overflow-hidden flex-shrink-0">
+                <div className="relative w-full sm:w-48 h-64 bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shrink-0">
                   <Image
                     src={book.coverUrl}
                     alt={book.title}
@@ -276,7 +276,7 @@ export default function BookDetailsPage({ params }) {
 
           <div className="space-y-4">
             <div className="flex items-start gap-3">
-              <CircleDollar className="text-red-600 w-5 h-5 mt-0.5 flex-shrink-0" />
+              <CircleDollar className="text-red-600 w-5 h-5 mt-0.5 shrink-0" />
               <div>
                 <span className="text-[11px] text-slate-500 block">
                   Delivery Fee
@@ -288,7 +288,7 @@ export default function BookDetailsPage({ params }) {
             </div>
 
             <div className="flex items-start gap-3">
-              <Ticket className="text-red-600 w-5 h-5 mt-0.5 flex-shrink-0" />
+              <Ticket className="text-red-600 w-5 h-5 mt-0.5 shrink-0" />
               <div>
                 <span className="text-[11px] text-slate-500 block">
                   Fulfillment
