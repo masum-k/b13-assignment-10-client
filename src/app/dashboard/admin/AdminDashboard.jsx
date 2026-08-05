@@ -25,6 +25,7 @@ import {
 import Unauthorized from "@/components/Unauthorized";
 import { useSession } from "@/lib/auth-client";
 import { bookUpdate } from "@/lib/actions/books";
+import { toast } from "react-toastify";
 
 // --- Mock Data ---
 const initialStats = {
@@ -60,14 +61,14 @@ export default function AdminDashboard({ books }) {
   const handleApprove = async (id) => {
     const result = await bookUpdate(id, { status: 'Approved' });
     if (result.modifiedCount || result.acknowledged) {
-      console.log(`Approved book with ID: ${id}`, result);
+      toast.success(`Approved book with ID: ${id}`, result);
     }
   };
 
   const handleReject = async (id) => {
     const result = await bookUpdate(id, { status: 'Rejected' });
     if (result.modifiedCount || result.acknowledged) {
-      console.log(`Rejected book with ID: ${id}`, result);
+      toast.dismiss(`Rejected book with ID: ${id}`, result);
     }
   };
 
